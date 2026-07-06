@@ -1,0 +1,388 @@
+[gd_scene format=3 uid="uid://b3c7xvctt7ymc"]
+
+[ext_resource type="Script" uid="uid://b61uhabse1eci" path="res://Scripts/terminal.gd" id="1_dg77c"]
+[ext_resource type="Texture2D" uid="uid://birij3ee5othe" path="res://UI/Sprites/topBar.png" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://h3hdoayw771i" path="res://UI/Sprites/screen.png" id="2_0xm2m"]
+[ext_resource type="FontFile" uid="uid://bx24wiouehlbu" path="res://UI/Fonts/HomeVideoBold-R90Dv.ttf" id="3_lquwl"]
+[ext_resource type="Texture2D" uid="uid://w8fw6u8mvmgg" path="res://UI/Sprites/button_process.png" id="4_7mycd"]
+[ext_resource type="Texture2D" uid="uid://bk5defe7fe2rj" path="res://UI/Sprites/button_process_pressed.png" id="5_272bh"]
+[ext_resource type="Texture2D" uid="uid://berexmju8mih7" path="res://UI/Sprites/button_process_disabled.png" id="6_4c57u"]
+[ext_resource type="Texture2D" uid="uid://bhd22u8el71k6" path="res://UI/Sprites/button_submit.png" id="6_5vw27"]
+[ext_resource type="FontFile" uid="uid://d3qs0enmhqdvl" path="res://UI/Fonts/HomeVideo-BLG6G.ttf" id="6_kek77"]
+[ext_resource type="Texture2D" uid="uid://bnxe3df814416" path="res://UI/Sprites/button_submit_pressed.png" id="7_kek77"]
+[ext_resource type="Texture2D" uid="uid://o0oipg4veuyn" path="res://UI/Sprites/button_submit_disabled.png" id="8_4c57u"]
+[ext_resource type="Script" uid="uid://0rx4dfxjlu7j" path="res://Scripts/processing_progress_text.gd" id="11_efxa6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yo5px"]
+bg_color = Color(0.24, 0.12319999, 0.064799994, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_awi32"]
+bg_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.95386714, 0.4456601, 0, 1)
+border_blend = true
+shadow_color = Color(0, 0, 0, 0.7921569)
+shadow_offset = Vector2(5.73, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4c57u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dg77c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ajysn"]
+bg_color = Color(0.65, 0.33799997, 0.18199998, 0)
+
+[node name="Main" type="Control" unique_id=639852667 node_paths=PackedStringArray("praenomia_label", "nomia_label", "cognomia_label", "age_label", "debt_label", "numus_label", "headcount_label", "imperium_merit_label", "process_button", "submit_button", "progress_bar")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dg77c")
+praenomia_label = NodePath("TerminalScreen/Screen/CapiteCensiData/Praenomina/Praenomina_Value")
+nomia_label = NodePath("TerminalScreen/Screen/CapiteCensiData/Nomina/Nomina_Value")
+cognomia_label = NodePath("TerminalScreen/Screen/CapiteCensiData/Cognomina/Cognomina_Value")
+age_label = NodePath("TerminalScreen/Screen/CapiteCensiData/Age/Age_Value")
+debt_label = NodePath("TerminalScreen/Screen/CapiteCensiData/Debt/Debt_value")
+numus_label = NodePath("TerminalScreen/TopBar2/BarBg/Label")
+headcount_label = NodePath("TerminalScreen/TopBar2/BarBg/Label2")
+imperium_merit_label = NodePath("TerminalScreen/TopBar2/BarBg/Label3")
+process_button = NodePath("TerminalScreen/Screen/ProcessButton")
+submit_button = NodePath("TerminalScreen/Screen/SubmitButton")
+progress_bar = NodePath("TerminalScreen/Screen/ProcessingProgressInfo/ProgressBar")
+
+[node name="TerminalScreen" type="TextureRect" parent="." unique_id=332854659]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar2" type="Control" parent="TerminalScreen" unique_id=1780776602]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 70.0
+grow_horizontal = 2
+
+[node name="BarBg" type="TextureRect" parent="TerminalScreen/TopBar2" unique_id=1517977255]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ig7tw")
+
+[node name="Label" type="Label" parent="TerminalScreen/TopBar2/BarBg" unique_id=269836246]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 6.0
+offset_right = 296.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 35
+text = "31K"
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="TerminalScreen/TopBar2/BarBg" unique_id=1240412498]
+layout_mode = 0
+offset_left = 365.0
+offset_top = 6.0
+offset_right = 478.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 35
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="TerminalScreen/TopBar2/BarBg" unique_id=834323286]
+layout_mode = 0
+offset_left = 543.0
+offset_top = 6.0
+offset_right = 714.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 35
+vertical_alignment = 1
+
+[node name="Screen" type="TextureRect" parent="TerminalScreen" unique_id=330385687]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -410.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("2_0xm2m")
+
+[node name="CapiteCensiData" type="Control" parent="TerminalScreen/Screen" unique_id=1880251276]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Praenomina" type="Label" parent="TerminalScreen/Screen/CapiteCensiData" unique_id=1185379729]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 154.0
+offset_bottom = 33.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 24
+text = "PRAENOMINA: "
+vertical_alignment = 1
+
+[node name="Praenomina_Value" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/Praenomina" unique_id=388321905]
+layout_mode = 1
+offset_top = 24.0
+offset_right = 144.0
+offset_bottom = 47.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 24
+text = " marcus "
+vertical_alignment = 1
+
+[node name="Nomina" type="Label" parent="TerminalScreen/Screen/CapiteCensiData" unique_id=1440603619]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 75.0
+offset_right = 154.0
+offset_bottom = 98.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 24
+text = "NOMINA: "
+vertical_alignment = 1
+
+[node name="Nomina_Value" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/Nomina" unique_id=348151823]
+layout_mode = 1
+offset_top = 24.0
+offset_right = 144.0
+offset_bottom = 47.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 24
+text = " aureilius "
+vertical_alignment = 1
+
+[node name="Cognomina" type="Label" parent="TerminalScreen/Screen/CapiteCensiData" unique_id=2099788296]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 140.0
+offset_right = 154.0
+offset_bottom = 163.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 24
+text = "COGNOMINA: "
+vertical_alignment = 1
+
+[node name="Cognomina_Value" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/Cognomina" unique_id=722038922]
+layout_mode = 1
+offset_top = 24.0
+offset_right = 144.0
+offset_bottom = 47.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 24
+text = " Auzzie "
+vertical_alignment = 1
+
+[node name="Age" type="Label" parent="TerminalScreen/Screen/CapiteCensiData" unique_id=622618422]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 205.0
+offset_right = 154.0
+offset_bottom = 228.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 24
+text = "AGE: "
+vertical_alignment = 1
+
+[node name="Age_Value" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/Age" unique_id=1146042619]
+layout_mode = 1
+offset_top = 24.0
+offset_right = 144.0
+offset_bottom = 47.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 24
+text = " 23 Sol Years, 11 months "
+vertical_alignment = 1
+
+[node name="Debt" type="Label" parent="TerminalScreen/Screen/CapiteCensiData" unique_id=1627272091]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 270.0
+offset_right = 268.0
+offset_bottom = 293.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 24
+text = "CURRENT DEBT:"
+vertical_alignment = 1
+
+[node name="Debt_value" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/Debt" unique_id=1028798782]
+layout_mode = 1
+offset_top = 24.0
+offset_right = 258.0
+offset_bottom = 47.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 24
+text = " Nm~12301 "
+vertical_alignment = 1
+
+[node name="ProcessButton" type="TextureButton" parent="TerminalScreen/Screen" unique_id=1171331562]
+modulate = Color(1, 0.791, 0.33999997, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -80.0
+offset_right = 411.0
+offset_bottom = -10.0
+grow_vertical = 0
+texture_normal = ExtResource("4_7mycd")
+texture_pressed = ExtResource("5_272bh")
+texture_disabled = ExtResource("6_4c57u")
+
+[node name="Label" type="Label" parent="TerminalScreen/Screen/ProcessButton" unique_id=135586752]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.5
+offset_top = -27.0
+offset_right = 192.5
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0.9148823, 0.42976037, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 30
+text = "PROCESS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SubmitButton" type="TextureButton" parent="TerminalScreen/Screen" unique_id=19769313]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -298.0
+offset_top = -80.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("6_5vw27")
+texture_pressed = ExtResource("7_kek77")
+texture_disabled = ExtResource("8_4c57u")
+
+[node name="Label" type="Label" parent="TerminalScreen/Screen/SubmitButton" unique_id=1504052782]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -136.0
+offset_top = -27.0
+offset_right = 137.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.91, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 30
+text = "SUBMIT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProcessingProgressInfo" type="Control" parent="TerminalScreen/Screen" unique_id=2008333616]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -298.0
+offset_top = 7.0
+offset_right = -7.0
+offset_bottom = 319.0
+grow_horizontal = 0
+
+[node name="ProgressBar" type="ProgressBar" parent="TerminalScreen/Screen/ProcessingProgressInfo" unique_id=413082905]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 286.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(0.63198787, 0.23172149, 0, 1)
+theme_override_constants/outline_size = -1
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_styles/background = SubResource("StyleBoxFlat_yo5px")
+theme_override_styles/fill = SubResource("StyleBoxFlat_awi32")
+
+[node name="TextEdit" type="TextEdit" parent="TerminalScreen/Screen/ProcessingProgressInfo" unique_id=466597942 node_paths=PackedStringArray("terminal_script")]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 37.0
+offset_right = 286.0
+offset_bottom = 307.0
+theme_override_colors/font_color = Color(1, 0.36666667, 0, 1)
+theme_override_colors/font_readonly_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_constants/caret_width = 0
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_styles/normal = SubResource("StyleBoxFlat_4c57u")
+theme_override_styles/focus = SubResource("StyleBoxFlat_dg77c")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_ajysn")
+editable = false
+context_menu_enabled = false
+emoji_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+middle_mouse_paste_enabled = false
+empty_selection_clipboard_enabled = false
+wrap_mode = 1
+indent_wrapped_lines = true
+tab_input_mode = false
+virtual_keyboard_enabled = false
+scroll_smooth = true
+scroll_fit_content_width = true
+caret_type = 1
+caret_blink = true
+draw_control_chars = true
+draw_tabs = true
+draw_spaces = true
+script = ExtResource("11_efxa6")
+terminal_script = NodePath("../../../..")
