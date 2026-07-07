@@ -29,8 +29,17 @@ func _ready() -> void:
 		GameManager.request_new_subject()
 		update_subject_details()
 
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("Process") and not process_button.disabled:
+		_on_process_button_pressed()
+	if Input.is_action_just_pressed("Submit") and not submit_button.disabled:
+		_on_submit_button_pressed()
+
 func refresh_finacial_data() -> void:
-	numus_label.text = String.num(GameManager.total_numus, 2)
+	var numus_amount: String = String.num(GameManager.total_numus, 2)
+	if GameManager.total_numus > 99.9:
+		numus_amount = String.num(GameManager.total_numus, 0)
+	numus_label.text = numus_amount
 	headcount_label.text = str(GameManager.total_headcount)
 	imperium_merit_label.text = str(GameManager.total_imperium_merits)
 

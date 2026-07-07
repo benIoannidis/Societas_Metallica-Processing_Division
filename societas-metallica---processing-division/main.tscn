@@ -139,78 +139,78 @@ offset_bottom = 40.0
 [node name="Praenomina" type="Label" parent="TerminalScreen/Screen/CapiteCensiData" unique_id=1185379729]
 layout_mode = 1
 offset_left = 10.0
-offset_top = 10.0
-offset_right = 154.0
-offset_bottom = 33.0
+offset_top = 20.0
+offset_right = 168.0
+offset_bottom = 43.0
 theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
 theme_override_fonts/font = ExtResource("3_lquwl")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = "PRAENOMINA: "
 vertical_alignment = 1
 
 [node name="Praenomina_Value" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/Praenomina" unique_id=388321905]
 layout_mode = 1
-offset_top = 24.0
-offset_right = 144.0
-offset_bottom = 47.0
+offset_left = 170.0
+offset_right = 314.0
+offset_bottom = 23.0
 theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
 theme_override_fonts/font = ExtResource("3_lquwl")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = " marcus "
 vertical_alignment = 1
 
 [node name="Nomina" type="Label" parent="TerminalScreen/Screen/CapiteCensiData" unique_id=1440603619]
 layout_mode = 1
 offset_left = 10.0
-offset_top = 75.0
+offset_top = 50.0
 offset_right = 154.0
-offset_bottom = 98.0
+offset_bottom = 73.0
 theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
 theme_override_fonts/font = ExtResource("3_lquwl")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = "NOMINA: "
 vertical_alignment = 1
 
 [node name="Nomina_Value" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/Nomina" unique_id=348151823]
 layout_mode = 1
-offset_top = 24.0
-offset_right = 144.0
-offset_bottom = 47.0
+offset_left = 170.0
+offset_right = 315.0
+offset_bottom = 23.0
 theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
 theme_override_fonts/font = ExtResource("3_lquwl")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = " aureilius "
 vertical_alignment = 1
 
 [node name="Cognomina" type="Label" parent="TerminalScreen/Screen/CapiteCensiData" unique_id=2099788296]
 layout_mode = 1
 offset_left = 10.0
-offset_top = 140.0
-offset_right = 154.0
-offset_bottom = 163.0
+offset_top = 80.0
+offset_right = 168.0
+offset_bottom = 103.0
 theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
 theme_override_fonts/font = ExtResource("3_lquwl")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = "COGNOMINA: "
 vertical_alignment = 1
 
 [node name="Cognomina_Value" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/Cognomina" unique_id=722038922]
 layout_mode = 1
-offset_top = 24.0
-offset_right = 144.0
-offset_bottom = 47.0
+offset_left = 170.0
+offset_right = 314.0
+offset_bottom = 23.0
 theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
 theme_override_fonts/font = ExtResource("3_lquwl")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 22
 text = " Auzzie "
 vertical_alignment = 1
 
 [node name="Age" type="Label" parent="TerminalScreen/Screen/CapiteCensiData" unique_id=622618422]
 layout_mode = 1
 offset_left = 10.0
-offset_top = 205.0
+offset_top = 120.0
 offset_right = 154.0
-offset_bottom = 228.0
+offset_bottom = 143.0
 theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
 theme_override_fonts/font = ExtResource("3_lquwl")
 theme_override_font_sizes/font_size = 24
@@ -262,6 +262,7 @@ offset_top = -80.0
 offset_right = 411.0
 offset_bottom = -10.0
 grow_vertical = 0
+focus_mode = 0
 texture_normal = ExtResource("4_7mycd")
 texture_pressed = ExtResource("5_272bh")
 texture_disabled = ExtResource("6_4c57u")
@@ -301,6 +302,7 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 0
 grow_vertical = 0
+focus_mode = 0
 texture_normal = ExtResource("6_5vw27")
 texture_pressed = ExtResource("7_kek77")
 texture_disabled = ExtResource("8_4c57u")
