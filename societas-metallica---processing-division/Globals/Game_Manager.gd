@@ -3,6 +3,7 @@ extends Node
 signal finacial_state_updated
 signal active_subject_completed()
 signal new_subject
+signal toggle_upgrade_screen
 
 var total_numus: float = 0.0
 var total_headcount: int = 0
