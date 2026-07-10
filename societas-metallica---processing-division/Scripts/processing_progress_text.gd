@@ -9,12 +9,14 @@ var output_order: Array[String] = [
 	"> collating debt...", 
 	"> debt total assessed.",
 	"> subject processing complete. preparing for indebted servitude...", 
-	"> subject identity stripped, being prepared for indebted servitude.", 
-	"> being indebted enslavement process complete."]
+	"> subject identity stripped, being is prepared for indebted servitude.", 
+	"> indebted being enslavement process complete."]
 
 var index: int = 0
 var console_max_length: int = 300
 var active_tween: Tween
+
+var current_animating_line: String
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -31,12 +33,19 @@ func _ready() -> void:
 func animate_top_line(full_new_line: String) -> void:
 	if active_tween and active_tween.is_running():
 		active_tween.kill()
+		
+		if not current_animating_line.is_empty():
+			var text_lines: PackedStringArray = text.split("\n")
+			if text_lines.size() > 0:
+				text_lines[0] = current_animating_line
+				text = "\n".join(text_lines)
+	
+	current_animating_line = full_new_line
 	
 	var old_text: String = text.left(console_max_length)
-	
 	active_tween = create_tween()
 	
-	var duration: float = full_new_line.length() * 0.01
+	var duration: float = full_new_line.length() * 0.05
 	
 	active_tween.tween_method(
 		func(char_count: int):
@@ -46,6 +55,8 @@ func animate_top_line(full_new_line: String) -> void:
 		full_new_line.length(),
 		duration
 	).set_trans(Tween.TRANS_LINEAR)
+	
+	active_tween.finished.connect(func(): current_animating_line = "")
 
 func print_next_line() -> void:
 	if not index == 0 and index < 6:
@@ -65,13 +76,11 @@ func _on_subject_completed() -> void:
 	#text = output_order[6] + "\n" + current_text
 
 func _on_new_subject() -> void:
-	var current_text: String = text.left(console_max_length)
 	if not index == 0:
-		text = output_order[output_order.size() - 1] + "\n" + current_text
-		terminal_script.process_button.disabled = true
+		animate_top_line(output_order[output_order.size() - 1])
+		terminal_script.process_button.disabled = true		
 		await get_tree().create_timer(1).timeout
 		terminal_script.process_button.disabled = false
-	current_text = text.left(console_max_length)
 	animate_top_line(output_order[0])
 	#text = output_order[0] + "\n" + current_text
 	index = 1

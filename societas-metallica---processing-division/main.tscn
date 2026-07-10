@@ -13,7 +13,6 @@
 [ext_resource type="Texture2D" uid="uid://berexmju8mih7" path="res://UI/Sprites/button_process_disabled.png" id="6_4c57u"]
 [ext_resource type="Texture2D" uid="uid://bhd22u8el71k6" path="res://UI/Sprites/button_submit.png" id="6_5vw27"]
 [ext_resource type="Texture2D" uid="uid://cx745pmmqfh2n" path="res://UI/Sprites/headcount_screen.png" id="6_cegan"]
-[ext_resource type="Texture2D" uid="uid://1by3l0xin05n" path="res://UI/Sprites/hover_imperium_logo.png" id="6_d13ii"]
 [ext_resource type="FontFile" uid="uid://d3qs0enmhqdvl" path="res://UI/Fonts/HomeVideo-BLG6G.ttf" id="6_kek77"]
 [ext_resource type="Texture2D" uid="uid://jbowb84xy2cm" path="res://UI/Sprites/merits_screen.png" id="7_82xsv"]
 [ext_resource type="Texture2D" uid="uid://bnxe3df814416" path="res://UI/Sprites/button_submit_pressed.png" id="7_kek77"]
@@ -26,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://b8v0qggu3ganp" path="res://UI/Sprites/upgrade_screen_panel.png" id="23_0odxb"]
 [ext_resource type="Script" uid="uid://ccn8mtqpe8q7c" path="res://Scripts/terminal_blip_sfx.gd" id="25_0odxb"]
 [ext_resource type="Script" uid="uid://chybemvabtxl4" path="res://Scripts/terminal_hum.gd" id="26_lswn8"]
+[ext_resource type="Script" uid="uid://dufr87ml4s4pr" path="res://Scripts/terminal_crackle_sfx.gd" id="27_a6jrf"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_blvug"]
 shader = ExtResource("2_ycdy4")
@@ -142,7 +142,7 @@ process_button = NodePath("TerminalScreen/Screen/ProcessButton")
 submit_button = NodePath("TerminalScreen/Screen/SubmitButton")
 process_button_audio = NodePath("ProcessButtonAudio")
 progress_bar = NodePath("TerminalScreen/Screen/ProcessingProgressInfo/CanvasGroup/TextureRect/ProgressBar")
-upgrades_button = NodePath("TerminalScreen/TopBar2/BarBg/Logo/UpgradesButton")
+upgrades_button = NodePath("TerminalScreen/TopBar2/BarBg/UpgradesButton")
 processing_screen = NodePath("TerminalScreen/Screen")
 upgrade_screen = NodePath("TerminalScreen/UpgradeScreen")
 
@@ -171,19 +171,14 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_ig7tw")
 
-[node name="Logo" type="CanvasGroup" parent="TerminalScreen/TopBar2/BarBg" unique_id=1311196485]
-material = SubResource("ShaderMaterial_blvug")
-fit_margin = 0.0
-clear_margin = 0.0
-
-[node name="UpgradesButton" type="TextureButton" parent="TerminalScreen/TopBar2/BarBg/Logo" unique_id=161741692]
+[node name="UpgradesButton" type="TextureButton" parent="TerminalScreen/TopBar2/BarBg" unique_id=161741692]
+layout_mode = 0
 offset_left = 6.0
 offset_top = 6.0
 offset_right = 63.0
 offset_bottom = 64.0
 texture_normal = ExtResource("3_yaehf")
 texture_pressed = ExtResource("5_ryguw")
-texture_hover = ExtResource("6_d13ii")
 
 [node name="Numus" type="CanvasGroup" parent="TerminalScreen/TopBar2/BarBg" unique_id=1217403747]
 material = SubResource("ShaderMaterial_blvug")
@@ -587,7 +582,13 @@ bus = &"ButtonFX"
 script = ExtResource("25_0odxb")
 
 [node name="TerminalHum" type="AudioStreamPlayer" parent="." unique_id=1429663728]
+bus = &"ButtonFX"
 script = ExtResource("26_lswn8")
 oscillation_speed = 10.0
 
-[connection signal="button_up" from="TerminalScreen/TopBar2/BarBg/Logo/UpgradesButton" to="." method="_on_texture_button_button_up"]
+[node name="TerminalCrackleSFX" type="AudioStreamPlayer" parent="." unique_id=1815599824]
+bus = &"ButtonFX"
+script = ExtResource("27_a6jrf")
+max_peak_volume = 0.01
+
+[connection signal="button_up" from="TerminalScreen/TopBar2/BarBg/UpgradesButton" to="." method="_on_texture_button_button_up"]

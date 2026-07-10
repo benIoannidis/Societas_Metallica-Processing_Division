@@ -29,6 +29,7 @@ func _process(delta: float) -> void:
 	# 2. Keep checking how many free slots are available in the audio buffer
 	var frames_available = playback.get_frames_available()
 	
+	oscillation_speed = randf_range(2.0, 4.0)
 	# Fill the empty buffer space on the fly
 	for i in range(frames_available):
 		# Create an oscillation (LFO) using a sine wave over time
