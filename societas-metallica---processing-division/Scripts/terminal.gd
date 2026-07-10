@@ -22,6 +22,8 @@ extends Control
 @export var upgrade_screen: TextureRect
 
 signal should_iterate_console
+signal terminal_beep_sfx
+signal submission_beep_sfx
 
 var base_pos: Vector2
 func _ready() -> void:
@@ -39,12 +41,6 @@ func _ready() -> void:
 		GameManager.request_new_subject()
 		update_subject_details()
 
-func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("Process") and not process_button.disabled:
-		_on_process_button_pressed()
-	if Input.is_action_just_pressed("Submit") and not submit_button.disabled:
-		_on_submit_button_pressed()
-
 func refresh_finacial_data() -> void:
 	var numus_amount: String = String.num(GameManager.total_numus, 2)
 	if GameManager.total_numus > 99.9:
@@ -57,6 +53,7 @@ func update_subject_details() -> void:
 	var subject = GameManager.active_subject
 	if subject.is_empty(): return
 	
+	terminal_beep_sfx.emit()
 	praenomia_label.text = " " + subject["praenomia"] + " "
 	nomia_label.text = " " + subject["nomia"] + " "
 	cognomia_label.text = " " + subject["cognomia"] + " "
@@ -75,6 +72,7 @@ func enslaved_subject_details() -> void:
 	cognomia_label.text = " INVALID QUERY "
 	age_label.text = " APPROPRIATE WORKING AGE "
 	debt_label.text = " NM~" + String.num(GameManager.active_subject["debt"] + 100.0, 2) + " "
+	terminal_beep_sfx.emit()
 
 func clear_subject_details() -> void:
 	praenomia_label.text = ""
@@ -89,7 +87,8 @@ func _on_submit_button_pressed() -> void:
 	GameManager.request_new_subject()
 	progress_bar.value = 0.0
 	clear_subject_details()
-	await await get_tree().create_timer(1).timeout
+	submission_beep_sfx.emit()
+	await get_tree().create_timer(1).timeout
 	update_subject_details()
 
 func _on_process_button_pressed() -> void:

@@ -24,6 +24,8 @@
 [ext_resource type="AudioStream" uid="uid://d4cwg0em75p5" path="res://Audio/key_thud.mp3" id="20_getpj"]
 [ext_resource type="Texture2D" uid="uid://delq0knplpg22" path="res://UI/Sprites/upgrade_screen.png" id="22_1u8w0"]
 [ext_resource type="Texture2D" uid="uid://b8v0qggu3ganp" path="res://UI/Sprites/upgrade_screen_panel.png" id="23_0odxb"]
+[ext_resource type="Script" uid="uid://ccn8mtqpe8q7c" path="res://Scripts/terminal_blip_sfx.gd" id="25_0odxb"]
+[ext_resource type="Script" uid="uid://chybemvabtxl4" path="res://Scripts/terminal_hum.gd" id="26_lswn8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_blvug"]
 shader = ExtResource("2_ycdy4")
@@ -65,7 +67,7 @@ shader_parameter/screen_noise_intensity = 0.20000000298023
 shader_parameter/scanline_noise_intensity = 0.8370000397575
 shader_parameter/scanline_density = 49.525001877437504
 shader_parameter/glow_intensity = 3.0000001425
-shader_parameter/glow_threshold = 0.550000026125
+shader_parameter/glow_threshold = 0.28400001349
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yo5px"]
 bg_color = Color(0.24, 0.12319999, 0.064799994, 1)
@@ -93,6 +95,18 @@ shadow_offset = Vector2(5.73, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ajysn"]
 bg_color = Color(0.65, 0.33799997, 0.18199998, 0)
+
+[sub_resource type="InputEventAction" id="InputEventAction_a6jrf"]
+action = &"Process"
+
+[sub_resource type="Shortcut" id="Shortcut_lswn8"]
+events = [SubResource("InputEventAction_a6jrf")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_qsp4k"]
+action = &"Submit"
+
+[sub_resource type="Shortcut" id="Shortcut_xuqvo"]
+events = [SubResource("InputEventAction_qsp4k")]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pdrlu"]
 shader = ExtResource("2_ycdy4")
@@ -469,6 +483,7 @@ offset_right = 411.0
 offset_bottom = -10.0
 grow_vertical = 0
 focus_mode = 0
+shortcut = SubResource("Shortcut_lswn8")
 texture_normal = ExtResource("4_7mycd")
 texture_pressed = ExtResource("5_272bh")
 texture_disabled = ExtResource("6_4c57u")
@@ -509,6 +524,7 @@ offset_bottom = -10.0
 grow_horizontal = 0
 grow_vertical = 0
 focus_mode = 0
+shortcut = SubResource("Shortcut_xuqvo")
 texture_normal = ExtResource("6_5vw27")
 texture_pressed = ExtResource("7_kek77")
 texture_disabled = ExtResource("8_4c57u")
@@ -536,6 +552,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="UpgradeScreen" type="TextureRect" parent="TerminalScreen" unique_id=106190974]
+visible = false
 texture_filter = 1
 layout_mode = 0
 offset_top = 70.0
@@ -564,5 +581,13 @@ current = true
 [node name="ProcessButtonAudio" type="AudioStreamPlayer" parent="." unique_id=2092993735]
 stream = ExtResource("20_getpj")
 bus = &"ButtonFX"
+
+[node name="TerminalBlipSFX" type="AudioStreamPlayer" parent="." unique_id=2118864518]
+bus = &"ButtonFX"
+script = ExtResource("25_0odxb")
+
+[node name="TerminalHum" type="AudioStreamPlayer" parent="." unique_id=1429663728]
+script = ExtResource("26_lswn8")
+oscillation_speed = 10.0
 
 [connection signal="button_up" from="TerminalScreen/TopBar2/BarBg/Logo/UpgradesButton" to="." method="_on_texture_button_button_up"]
