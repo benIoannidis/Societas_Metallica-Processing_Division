@@ -18,8 +18,11 @@ extends Control
 @export var progress_bar: ProgressBar
 
 @export var upgrades_button: TextureButton
+@export var upgrade_button_audio: AudioStreamPlayer
+
 @export var processing_screen: TextureRect
 @export var upgrade_screen: TextureRect
+@export var upgrade_screen_sfx: AudioStreamPlayer
 
 signal should_iterate_console
 signal terminal_beep_sfx
@@ -82,6 +85,7 @@ func clear_subject_details() -> void:
 	debt_label.text = ""
 
 func _on_submit_button_pressed() -> void:
+	process_button_audio.play()
 	submit_button.disabled = true
 	process_button.disabled = false
 	GameManager.request_new_subject()
@@ -111,7 +115,12 @@ func _on_subject_completion() -> void:
 	enslaved_subject_details()
 
 
+func _on_upgrades_button_button_down() -> void:
+	upgrade_button_audio.play()
+
+
 func _on_texture_button_button_up() -> void:
+	
 	if not upgrade_screen.visible:
 		open_upgrade_panel()
 	else:
@@ -121,6 +130,8 @@ func open_upgrade_panel() -> void:
 	upgrade_screen.global_position = Vector2(-720, 70)
 	
 	upgrade_screen.visible = true
+	
+	upgrade_screen_sfx.play_slide_open_sfx()
 	
 	var tween: Tween = create_tween().set_parallel(true)
 	
@@ -133,6 +144,9 @@ func open_upgrade_panel() -> void:
 
 func close_upgrade_panel() -> void:
 	processing_screen.visible = true
+	
+	upgrade_screen_sfx.play_slide_close_sfx()
+	
 	var tween: Tween = create_tween().set_parallel(true)
 	var target_pos: Vector2 = Vector2(-720, 70)
 	
@@ -140,3 +154,10 @@ func close_upgrade_panel() -> void:
 		.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_IN)
 	
 	tween.chain().tween_callback(func(): upgrade_screen.visible = false)
+
+func _on_exit_button_button_down() -> void:
+	upgrade_button_audio.play()
+
+func _on_exit_button_button_up() -> void:
+	#replace later 
+	get_tree().quit()

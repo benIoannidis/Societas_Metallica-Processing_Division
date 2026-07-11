@@ -28,8 +28,8 @@ SubjectGenerator="*uid://dnck08ovltdjk"
 
 window/size/viewport_width=720
 window/size/viewport_height=480
+window/size/mode=2
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
 
 [gui]
 

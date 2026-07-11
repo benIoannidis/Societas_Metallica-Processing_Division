@@ -5,7 +5,7 @@ resource_name = "Reverb"
 room_size = 0.13
 damping = 0.0
 spread = 0.17
-wet = 0.13
+wet = 0.05
 
 [resource]
 bus/1/name = &"ButtonFX"
