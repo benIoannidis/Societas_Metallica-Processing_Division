@@ -24,19 +24,36 @@ extends Control
 @export var upgrade_screen: TextureRect
 @export var upgrade_screen_sfx: AudioStreamPlayer
 
+@export var efficiency_button: TextureButton
+@export var efficiency_label: Label
+@export var efficiency_count_label: Label
+@export var return_button: TextureButton
+@export var return_label: Label
+@export var return_count_label: Label
+@export var debtupgrade_button: TextureButton
+@export var debtupgrade_label: Label
+@export var debt_count_label: Label
+@export var prestige_button: TextureButton
+@export var prestige_label: Label
+
 signal should_iterate_console
 signal terminal_beep_sfx
 signal submission_beep_sfx
 
 var base_pos: Vector2
 func _ready() -> void:
+	set_default_upgrade_values()
 	upgrade_screen.visible = false
 	base_pos = position
 	
 	submit_button.disabled = true
 	GameManager.finacial_state_updated.connect(refresh_finacial_data)
 	GameManager.active_subject_completed.connect(_on_subject_completion)
-	
+	GameManager.upgrade_purchased.connect(
+		func(): 
+		refresh_finacial_data()
+		update_upgrade_buttons()
+		)
 	process_button.pressed.connect(_on_process_button_pressed)
 	submit_button.pressed.connect(_on_submit_button_pressed)
 	
@@ -114,10 +131,8 @@ func _on_subject_completion() -> void:
 	submit_button.disabled = false
 	enslaved_subject_details()
 
-
 func _on_upgrades_button_button_down() -> void:
 	upgrade_button_audio.play()
-
 
 func _on_texture_button_button_up() -> void:
 	
@@ -127,6 +142,7 @@ func _on_texture_button_button_up() -> void:
 		close_upgrade_panel()
 
 func open_upgrade_panel() -> void:
+	update_upgrade_buttons()
 	upgrade_screen.global_position = Vector2(-720, 70)
 	
 	upgrade_screen.visible = true
@@ -161,3 +177,29 @@ func _on_exit_button_button_down() -> void:
 func _on_exit_button_button_up() -> void:
 	#replace later 
 	get_tree().quit()
+
+func set_default_upgrade_values() -> void:
+	efficiency_button.disabled = true
+	return_button.disabled = true
+	debtupgrade_button.disabled = true
+	prestige_button.disabled = true
+	
+	efficiency_count_label.text = "x0"
+	efficiency_label.text = "NM 10.00"
+	return_count_label.text = "x0"
+	return_label.text = "NM 30.00"
+	debt_count_label.text = "x0"
+	debtupgrade_label.text = "NM 60.00"
+	prestige_label.text = "M̶ 0"
+
+func update_upgrade_buttons() -> void:
+	efficiency_button.disabled = GameManager.total_numus < GameManager.efficiency_upgrade_cost
+	return_button.disabled = GameManager.total_numus < GameManager.return_upgrade_cost
+	debtupgrade_button.disabled = GameManager.total_numus < GameManager.debt_upgrade_cost
+	
+	efficiency_count_label.text = "x" + str(GameManager.efficiency_upgrade_count)
+	efficiency_label.text = "NM " + str(GameManager.efficiency_upgrade_cost)
+	return_count_label.text = "x" + str(GameManager.return_upgrade_count)
+	return_label.text = "NM " + str(GameManager.return_upgrade_cost)
+	debt_count_label.text = "x" + str(GameManager.debt_upgrade_count)
+	debtupgrade_label.text = "NM " + str(GameManager.debt_upgrade_cost)

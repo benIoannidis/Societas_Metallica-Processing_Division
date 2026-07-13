@@ -4,6 +4,7 @@ signal finacial_state_updated
 signal active_subject_completed()
 signal new_subject
 signal toggle_upgrade_screen
+signal upgrade_purchased
 
 var total_numus: float = 0.0
 var total_headcount: int = 0
@@ -13,6 +14,14 @@ var audit_complete_payout_percentage: float = 0.01
 var numus_per_second: float = 0.0
 
 var active_subject: Dictionary = {}
+
+var efficiency_upgrade_cost = 10.0
+var return_upgrade_cost = 30.0
+var debt_upgrade_cost = 60.0
+
+var efficiency_upgrade_count: int = 0
+var return_upgrade_count: int = 0
+var debt_upgrade_count: int = 0
 
 func _ready() -> void:
 	initialise_tick_timer()
@@ -58,4 +67,24 @@ func request_new_subject() -> void:
 	
 	active_subject = SubjectGenerator.generate_profile(tier)
 	new_subject.emit()
-	
+
+func upgrade_efficiency() -> void:
+	total_numus -= efficiency_upgrade_cost
+	audit_efficiency += (audit_efficiency * 0.1)
+	efficiency_upgrade_cost += (efficiency_upgrade_cost * 0.5)
+	efficiency_upgrade_count += 1
+	upgrade_purchased.emit()
+
+func upgrade_return() -> void:
+	total_numus -= return_upgrade_cost
+	audit_complete_payout_percentage *= 2.0
+	return_upgrade_cost *= 4.0
+	return_upgrade_count += 1
+	upgrade_purchased.emit()
+
+func upgrade_average_debt() -> void:
+	total_numus -= debt_upgrade_cost
+	SubjectGenerator.average_debt_multiplier += (SubjectGenerator.average_debt_multiplier * 0.5)
+	debt_upgrade_cost *= 4
+	debt_upgrade_count += 1
+	upgrade_purchased.emit()

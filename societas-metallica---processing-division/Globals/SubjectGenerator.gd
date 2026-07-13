@@ -4,6 +4,8 @@ var praenomia: PackedStringArray = []
 var nomia: PackedStringArray = []
 var cognomia: PackedStringArray = []
 
+var average_debt_multiplier: float = 1.0
+
 func _ready() -> void:
 	load_census_database()
 
@@ -43,8 +45,8 @@ func generate_profile(tier: int) -> Dictionary:
 	var n = nomia[randi() % nomia.size()]
 	var c = cognomia[randi() % cognomia.size()]
 	
-	var minimum_debt = 50.0 * pow(1.5, tier)
-	var maximum_debt = 150.0 * pow(1.5, tier)
+	var minimum_debt = 50.0 * pow(1.5, tier) * average_debt_multiplier
+	var maximum_debt = 150.0 * pow(1.5, tier) * average_debt_multiplier
 	var rolled_debt = randf_range(minimum_debt, maximum_debt)
 	
 	var minimum_steps = 3.0 * pow(2, tier)
