@@ -1,5 +1,9 @@
 extends Control
 
+@export var terminals: Array[TextureRect]
+@export var terminal_off_sfx: AudioStream
+@export var terminal_on_sfx: AudioStream
+
 @export var praenomia_label: Label
 @export var nomia_label: Label
 @export var cognomia_label: Label
@@ -42,6 +46,9 @@ signal submission_beep_sfx
 
 var base_pos: Vector2
 func _ready() -> void:
+	refresh_finacial_data()
+	await get_tree().create_timer(0.5).timeout
+	await boot_sequence()
 	set_default_upgrade_values()
 	upgrade_screen.visible = false
 	base_pos = position
@@ -61,6 +68,66 @@ func _ready() -> void:
 		GameManager.request_new_subject()
 		update_subject_details()
 
+func boot_sequence() -> void:
+	for i in range(terminals.size()):
+		await  boot_up_terminal(i)
+		
+		if i < terminals.size() - 1:
+			await  get_tree().create_timer(0.25).timeout
+
+func boot_up_terminal(terminal_index: int) -> void:
+	# boot up stuff
+	terminals[terminal_index].modulate = Color(4.0, 4.0, 4.0, 1.0)
+	
+	var boot_tween: Tween = create_tween()
+	terminals[terminal_index].scale = Vector2(0.01, 0.01)
+	boot_tween.parallel().tween_property(terminals[terminal_index], "scale:x", 1.0, 0.05)\
+	.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
+	
+	var audio_player: AudioStreamPlayer = get_audio_child(terminals[terminal_index])
+	audio_player.stream = terminal_on_sfx
+	audio_player.play()
+	
+	boot_tween.tween_property(terminals[terminal_index], "scale:y", 1.0, 0.1)\
+	.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
+	
+	boot_tween.parallel().tween_property(terminals[terminal_index], "modulate", Color.WHITE, 0.8)
+	
+	#await boot_tween.finished
+	#if terminal_index != terminals.size() - 1:
+		#await  get_tree().create_timer(0.5).timeout
+		#boot_up_terminal(terminal_index + 1)
+
+func shut_down_sequence() -> void:
+	for i in range(terminals.size()-1,-1,-1):
+		await shut_down_terminal(i)
+		
+		if i > 0:
+			await get_tree().create_timer(0.05).timeout
+
+func shut_down_terminal(terminal_index: int) -> void:
+	terminals[terminal_index].modulate = Color(0.9, 0.9, 0.9, 1.0)
+	
+	var shutdown_tween: Tween = create_tween()
+	shutdown_tween.parallel().tween_property(terminals[terminal_index], "scale:y", 0.01, 0.05)\
+	.set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN_OUT)
+	
+	var audio_player: AudioStreamPlayer = get_audio_child(terminals[terminal_index])
+	audio_player.stream = terminal_off_sfx
+	audio_player.play()
+	
+	shutdown_tween.tween_property(terminals[terminal_index], "scale:x", 0.01, 0.2)\
+	.set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN_OUT)
+	
+	shutdown_tween.parallel().tween_property(terminals[terminal_index], "modulate", Color(0,0,0,0.5), 0.8)
+	
+	#await shutdown_tween.finished
+
+func get_audio_child(terminal: TextureRect) -> AudioStreamPlayer:
+	for child in terminal.get_children():
+		if child is AudioStreamPlayer:
+			return child 
+	return null
 func refresh_finacial_data() -> void:
 	var numus_amount: String = String.num(GameManager.total_numus, 2)
 	if GameManager.total_numus > 99.9:
@@ -176,6 +243,9 @@ func _on_exit_button_button_down() -> void:
 
 func _on_exit_button_button_up() -> void:
 	#replace later 
+	GameManager.cut_audio.emit()
+	await shut_down_sequence()
+	await get_tree().create_timer(1).timeout
 	get_tree().quit()
 
 func set_default_upgrade_values() -> void:
@@ -197,9 +267,9 @@ func update_upgrade_buttons() -> void:
 	return_button.disabled = GameManager.total_numus < GameManager.return_upgrade_cost
 	debtupgrade_button.disabled = GameManager.total_numus < GameManager.debt_upgrade_cost
 	
-	efficiency_count_label.text = "x" + str(GameManager.efficiency_upgrade_count)
-	efficiency_label.text = "NM " + str(GameManager.efficiency_upgrade_cost)
-	return_count_label.text = "x" + str(GameManager.return_upgrade_count)
-	return_label.text = "NM " + str(GameManager.return_upgrade_cost)
-	debt_count_label.text = "x" + str(GameManager.debt_upgrade_count)
-	debtupgrade_label.text = "NM " + str(GameManager.debt_upgrade_cost)
+	efficiency_count_label.text = "x" + String.num(GameManager.efficiency_upgrade_count, 2)
+	efficiency_label.text = "NM " + String.num(GameManager.efficiency_upgrade_cost, 2)
+	return_count_label.text = "x" + String.num(GameManager.return_upgrade_count, 2)
+	return_label.text = "NM " + String.num(GameManager.return_upgrade_cost, 2)
+	debt_count_label.text = "x" + String.num(GameManager.debt_upgrade_count, 2)
+	debtupgrade_label.text = "NM " + String.num(GameManager.debt_upgrade_cost, 2)

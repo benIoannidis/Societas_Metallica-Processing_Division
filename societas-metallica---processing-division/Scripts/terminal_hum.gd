@@ -9,11 +9,14 @@ var phase: float = 0.0
 var time_elapsed: float = 0.0
 
 func _ready() -> void:
+	GameManager.cut_audio.connect(_on_cut_audio)
 	var generator: AudioStreamGenerator = AudioStreamGenerator.new()
 	generator.mix_rate = 44100
 	generator.buffer_length = 0.5 # A slightly larger buffer keeps playback smooth
 	
 	self.stream = generator
+	
+	await get_tree().create_timer(2).timeout
 	self.play()
 	
 	playback = self.get_stream_playback()
@@ -55,3 +58,6 @@ func _process(delta: float) -> void:
 		
 		# Feed it into the continuous live buffer
 		playback.push_frame(Vector2(sample, sample))
+
+func _on_cut_audio() -> void:
+	self.stop()

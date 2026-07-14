@@ -5,6 +5,7 @@ signal active_subject_completed()
 signal new_subject
 signal toggle_upgrade_screen
 signal upgrade_purchased
+signal cut_audio
 
 var total_numus: float = 0.0
 var total_headcount: int = 0
@@ -15,9 +16,9 @@ var numus_per_second: float = 0.0
 
 var active_subject: Dictionary = {}
 
-var efficiency_upgrade_cost = 10.0
-var return_upgrade_cost = 30.0
-var debt_upgrade_cost = 60.0
+var efficiency_upgrade_cost: float = 10.0
+var return_upgrade_cost: float = 30.0
+var debt_upgrade_cost: float = 60.0
 
 var efficiency_upgrade_count: int = 0
 var return_upgrade_count: int = 0
@@ -58,12 +59,12 @@ func finalise_active_subject() -> void:
 func request_new_subject() -> void:
 	finacial_state_updated.emit()
 	var tier: int = 0
-	if total_headcount >= 10 and total_headcount < 30:
-		tier = 1
-	elif total_headcount >= 30 and total_headcount < 75:
-		tier = 2
-	elif total_headcount >= 75 and total_headcount < 150:
-		tier = 3
+	if total_headcount >= 10 and total_headcount < 30: 			tier = 1
+	elif total_headcount >= 30 and total_headcount < 75: 		tier = 2
+	elif total_headcount >= 75 and total_headcount < 150: 		tier = 3
+	elif total_headcount >= 150 and total_headcount < 300: 		tier = 4
+	elif total_headcount >= 300 and total_headcount < 450: 		tier = 5
+	elif total_headcount >= 450 and total_headcount < 600:		tier = 6
 	
 	active_subject = SubjectGenerator.generate_profile(tier)
 	new_subject.emit()
@@ -84,7 +85,7 @@ func upgrade_return() -> void:
 
 func upgrade_average_debt() -> void:
 	total_numus -= debt_upgrade_cost
-	SubjectGenerator.average_debt_multiplier += (SubjectGenerator.average_debt_multiplier * 0.5)
-	debt_upgrade_cost *= 4
+	SubjectGenerator.average_debt_multiplier *= 1.5
+	debt_upgrade_cost *= 4.0
 	debt_upgrade_count += 1
 	upgrade_purchased.emit()
