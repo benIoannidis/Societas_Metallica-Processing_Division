@@ -1,0 +1,960 @@
+[gd_scene format=3 uid="uid://b3c7xvctt7ymc"]
+
+[ext_resource type="Script" uid="uid://b61uhabse1eci" path="res://Scripts/terminal.gd" id="1_dg77c"]
+[ext_resource type="Texture2D" uid="uid://h3hdoayw771i" path="res://UI/Sprites/screen.png" id="2_0xm2m"]
+[ext_resource type="Texture2D" uid="uid://ctke3c5hdoksu" path="res://aseprite_files/topbar.png" id="2_lswn8"]
+[ext_resource type="Shader" uid="uid://c4lwyqeisokva" path="res://shaders/crt_effect.gdshader" id="2_ycdy4"]
+[ext_resource type="AudioStream" uid="uid://ddone3lqh05di" path="res://Audio/screen_on_sfx.mp3" id="3_0n3wm"]
+[ext_resource type="FontFile" uid="uid://bx24wiouehlbu" path="res://UI/Fonts/HomeVideoBold-R90Dv.ttf" id="3_lquwl"]
+[ext_resource type="Texture2D" uid="uid://e433xxwthf47" path="res://UI/Sprites/imperium_logo.png" id="3_yaehf"]
+[ext_resource type="Texture2D" uid="uid://w8fw6u8mvmgg" path="res://UI/Sprites/button_process.png" id="4_7mycd"]
+[ext_resource type="Texture2D" uid="uid://dj63v3clxrebh" path="res://UI/Sprites/numus_screen.png" id="4_074og"]
+[ext_resource type="Texture2D" uid="uid://bk5defe7fe2rj" path="res://UI/Sprites/button_process_pressed.png" id="5_272bh"]
+[ext_resource type="Texture2D" uid="uid://1by3l0xin05n" path="res://UI/Sprites/hover_imperium_logo.png" id="5_a6jrf"]
+[ext_resource type="Texture2D" uid="uid://chq1pnbvd4ftv" path="res://UI/Sprites/down_imperium_logo.png" id="5_ryguw"]
+[ext_resource type="Texture2D" uid="uid://berexmju8mih7" path="res://UI/Sprites/button_process_disabled.png" id="6_4c57u"]
+[ext_resource type="Texture2D" uid="uid://bhd22u8el71k6" path="res://UI/Sprites/button_submit.png" id="6_5vw27"]
+[ext_resource type="Texture2D" uid="uid://cx745pmmqfh2n" path="res://UI/Sprites/headcount_screen.png" id="6_cegan"]
+[ext_resource type="FontFile" uid="uid://d3qs0enmhqdvl" path="res://UI/Fonts/HomeVideo-BLG6G.ttf" id="6_kek77"]
+[ext_resource type="Texture2D" uid="uid://jbowb84xy2cm" path="res://UI/Sprites/merits_screen.png" id="7_82xsv"]
+[ext_resource type="Texture2D" uid="uid://bnxe3df814416" path="res://UI/Sprites/button_submit_pressed.png" id="7_kek77"]
+[ext_resource type="Texture2D" uid="uid://o0oipg4veuyn" path="res://UI/Sprites/button_submit_disabled.png" id="8_4c57u"]
+[ext_resource type="AudioStream" uid="uid://dwyx7crr25lpe" path="res://Audio/screen_off_sfx.mp3" id="9_gngh3"]
+[ext_resource type="Texture2D" uid="uid://cmqqml84amr2t" path="res://UI/Sprites/data_screen.png" id="10_cegan"]
+[ext_resource type="Script" uid="uid://0rx4dfxjlu7j" path="res://Scripts/processing_progress_text.gd" id="11_efxa6"]
+[ext_resource type="Texture2D" uid="uid://bc233g5ccrio6" path="res://UI/Sprites/exit_button.png" id="11_seu75"]
+[ext_resource type="Texture2D" uid="uid://ctt8qdgyv0qkx" path="res://UI/Sprites/terminal_screen.png" id="12_82xsv"]
+[ext_resource type="Texture2D" uid="uid://63nmr0kejuu4" path="res://UI/Sprites/down_exit_button.png" id="12_htxhm"]
+[ext_resource type="Texture2D" uid="uid://cr8n1l31adsw8" path="res://UI/Sprites/sound_button_disabled.png" id="13_0rl1p"]
+[ext_resource type="Texture2D" uid="uid://duw2ike26pia6" path="res://UI/Sprites/sound_button.png" id="13_jq2sk"]
+[ext_resource type="Texture2D" uid="uid://bm2sfjteua3hk" path="res://UI/Sprites/down_sound_button.png" id="14_4k2k6"]
+[ext_resource type="Script" uid="uid://be10t14c1t3dk" path="res://Scripts/toggle_audio_button.gd" id="15_4k2k6"]
+[ext_resource type="AudioStream" uid="uid://d4cwg0em75p5" path="res://Audio/Process_key_thud.mp3" id="20_getpj"]
+[ext_resource type="Texture2D" uid="uid://delq0knplpg22" path="res://UI/Sprites/upgrade_screen.png" id="22_1u8w0"]
+[ext_resource type="Texture2D" uid="uid://b8v0qggu3ganp" path="res://UI/Sprites/upgrade_screen_panel.png" id="23_0odxb"]
+[ext_resource type="Script" uid="uid://ccn8mtqpe8q7c" path="res://Scripts/terminal_blip_sfx.gd" id="25_0odxb"]
+[ext_resource type="AudioStream" uid="uid://by57e3ksubmxo" path="res://Audio/toggle_upgrades_click.mp3" id="25_xuqvo"]
+[ext_resource type="Script" uid="uid://chybemvabtxl4" path="res://Scripts/terminal_hum.gd" id="26_lswn8"]
+[ext_resource type="Script" uid="uid://dyk6jd76jsoyr" path="res://Scripts/upgrade_panel_slide_out_sfx.gd" id="29_qsp4k"]
+[ext_resource type="Script" uid="uid://c2y0fkvgei2iv" path="res://Scripts/upgrades_watcher.gd" id="30_gngh3"]
+[ext_resource type="Texture2D" uid="uid://bih4tvp0o3cw3" path="res://UI/Sprites/upgrade_cost_button.png" id="30_ok6jj"]
+[ext_resource type="Texture2D" uid="uid://c72oqu6wuet5i" path="res://UI/Sprites/down_upgrade_cost_button.png" id="31_b1qrp"]
+[ext_resource type="Texture2D" uid="uid://co1xaj7sfuq4w" path="res://UI/Sprites/hover_upgrade_cost_button.png" id="31_facbu"]
+[ext_resource type="Texture2D" uid="uid://c0fpmq3timb8c" path="res://UI/Sprites/prestige_button.png" id="33_4lmeg"]
+[ext_resource type="Texture2D" uid="uid://doc0gk7opd6nt" path="res://UI/Sprites/disabled_upgrade_cost_button.png" id="33_d2t1y"]
+[ext_resource type="Texture2D" uid="uid://cvc3s80alm0s1" path="res://UI/Sprites/down_prestige_button.png" id="34_0cp0l"]
+[ext_resource type="Texture2D" uid="uid://cykr6firygftt" path="res://UI/Sprites/hover_prestige_button.png" id="35_d2t1y"]
+[ext_resource type="Texture2D" uid="uid://kgfsi618g8sd" path="res://UI/Sprites/disabled_prestige_button.png" id="36_0cp0l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_blvug"]
+shader = ExtResource("2_ycdy4")
+shader_parameter/scan_line_thickness = 1.0
+shader_parameter/scanline_opacity = 0.102000004845
+shader_parameter/scroll_speed = 0.18500048378749945
+shader_parameter/fisheye_curvature = 0.0400000019
+shader_parameter/vignette_intensity = 0.4050000192375
+shader_parameter/vignette_colour = Color(0.05490196, 0.078431375, 0.019607844, 1)
+shader_parameter/screen_noise_intensity = 0.170000008075
+shader_parameter/scanline_noise_intensity = 0.62000002945
+shader_parameter/scanline_density = 10.0
+shader_parameter/glow_intensity = 1.006000047785
+shader_parameter/glow_threshold = 0.50000002375
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nm1uh"]
+shader = ExtResource("2_ycdy4")
+shader_parameter/scan_line_thickness = 0.8050000382375
+shader_parameter/scanline_opacity = 0.0850000040375
+shader_parameter/scroll_speed = 2.0
+shader_parameter/fisheye_curvature = 0.06000000285
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_colour = Color(0.05490196, 0.078431375, 0.019607844, 1)
+shader_parameter/screen_noise_intensity = 0.1610000076475
+shader_parameter/scanline_noise_intensity = 2.0
+shader_parameter/scanline_density = 58.9610023256475
+shader_parameter/glow_intensity = 2.0
+shader_parameter/glow_threshold = 0.50000002375
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vlfh8"]
+shader = ExtResource("2_ycdy4")
+shader_parameter/scan_line_thickness = 1.0
+shader_parameter/scanline_opacity = 0.1070000050825
+shader_parameter/scroll_speed = 1.0330005240675
+shader_parameter/fisheye_curvature = 0.06000000285
+shader_parameter/vignette_intensity = 0.42800002033
+shader_parameter/vignette_colour = Color(0.054666672, 0.08, 0.0192, 1)
+shader_parameter/screen_noise_intensity = 0.20000000298023
+shader_parameter/scanline_noise_intensity = 0.8370000397575
+shader_parameter/scanline_density = 49.525001877437504
+shader_parameter/glow_intensity = 3.0000001425
+shader_parameter/glow_threshold = 0.28400001349
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yo5px"]
+bg_color = Color(0.24, 0.12319999, 0.064799994, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_awi32"]
+bg_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.95386714, 0.4456601, 0, 1)
+border_blend = true
+shadow_color = Color(0, 0, 0, 0.7921569)
+shadow_offset = Vector2(5.73, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4c57u"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dg77c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ajysn"]
+bg_color = Color(0.65, 0.33799997, 0.18199998, 0)
+
+[sub_resource type="InputEventAction" id="InputEventAction_a6jrf"]
+action = &"Process"
+
+[sub_resource type="Shortcut" id="Shortcut_lswn8"]
+events = [SubResource("InputEventAction_a6jrf")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_qsp4k"]
+action = &"Submit"
+
+[sub_resource type="Shortcut" id="Shortcut_xuqvo"]
+events = [SubResource("InputEventAction_qsp4k")]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pdrlu"]
+shader = ExtResource("2_ycdy4")
+shader_parameter/scan_line_thickness = 0.8050000382375
+shader_parameter/scanline_opacity = 0.0850000040375
+shader_parameter/scroll_speed = 2.0
+shader_parameter/fisheye_curvature = 0.06000000285
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/vignette_colour = Color(0.05490196, 0.078431375, 0.019607844, 1)
+shader_parameter/screen_noise_intensity = 0.1610000076475
+shader_parameter/scanline_noise_intensity = 2.0
+shader_parameter/scanline_density = 58.9610023256475
+shader_parameter/glow_intensity = 4.0
+shader_parameter/glow_threshold = 0.450000021375
+
+[node name="GameScreen" type="Control" unique_id=639852667 node_paths=PackedStringArray("terminals", "praenomia_label", "nomia_label", "cognomia_label", "age_label", "debt_label", "numus_label", "headcount_label", "imperium_merit_label", "process_button", "submit_button", "process_button_audio", "progress_bar", "upgrades_button", "upgrade_button_audio", "processing_screen", "upgrade_screen", "upgrade_screen_sfx", "efficiency_button", "efficiency_label", "efficiency_count_label", "return_button", "return_label", "return_count_label", "debtupgrade_button", "debtupgrade_label", "debt_count_label", "prestige_button", "prestige_label")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dg77c")
+terminals = [NodePath("TerminalScreen/TopBar2/BarBg/Numus/Numus_screen"), NodePath("TerminalScreen/TopBar2/BarBg/Headcount/headcount_screen"), NodePath("TerminalScreen/TopBar2/BarBg/Merits/merits_screen"), NodePath("TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect"), NodePath("TerminalScreen/Screen/ProcessingProgressInfo/CanvasGroup/TextureRect")]
+terminal_off_sfx = ExtResource("9_gngh3")
+terminal_on_sfx = ExtResource("3_0n3wm")
+praenomia_label = NodePath("TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect/Praenomina/Praenomina_Value")
+nomia_label = NodePath("TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect/Nomina/Nomina_Value")
+cognomia_label = NodePath("TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect/Cognomina/Cognomina_Value")
+age_label = NodePath("TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect/Age/Age_Value")
+debt_label = NodePath("TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect/Debt/Debt_value")
+numus_label = NodePath("TerminalScreen/TopBar2/BarBg/Numus/Numus_screen/Label")
+headcount_label = NodePath("TerminalScreen/TopBar2/BarBg/Headcount/headcount_screen/Label2")
+imperium_merit_label = NodePath("TerminalScreen/TopBar2/BarBg/Merits/merits_screen/Label3")
+process_button = NodePath("TerminalScreen/Screen/ProcessButton")
+submit_button = NodePath("TerminalScreen/Screen/SubmitButton")
+process_button_audio = NodePath("ProcessButtonAudio")
+progress_bar = NodePath("TerminalScreen/Screen/ProcessingProgressInfo/CanvasGroup/TextureRect/ProgressBar")
+upgrades_button = NodePath("TerminalScreen/TopBar2/BarBg/UpgradesButton")
+upgrade_button_audio = NodePath("UpgradeButtonAudio")
+processing_screen = NodePath("TerminalScreen/Screen")
+upgrade_screen = NodePath("TerminalScreen/UpgradeScreen")
+upgrade_screen_sfx = NodePath("UpgradePanelSlideOut_SFX")
+efficiency_button = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency/Processing_Efficiency_Button")
+efficiency_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency/Processing_Efficiency_Button/UpgradeCost")
+efficiency_count_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency/CurrentCount")
+return_button = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn/Processing_Return_Button")
+return_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn/Processing_Return_Button/UpgradeCost")
+return_count_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn/CurrentCount")
+debtupgrade_button = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt/Average_Debt_Button")
+debtupgrade_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt/Average_Debt_Button/UpgradeCost")
+debt_count_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt/CurrentCount")
+prestige_button = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/PrestigeButton")
+prestige_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/PrestigeButton/MeritsReturned")
+
+[node name="TerminalScreen" type="TextureRect" parent="." unique_id=332854659]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBar2" type="Control" parent="TerminalScreen" unique_id=1780776602]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 70.0
+grow_horizontal = 2
+
+[node name="BarBg" type="TextureRect" parent="TerminalScreen/TopBar2" unique_id=1517977255]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_lswn8")
+
+[node name="UpgradesButton" type="TextureButton" parent="TerminalScreen/TopBar2/BarBg" unique_id=161741692]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 63.0
+offset_bottom = 64.0
+focus_mode = 0
+texture_normal = ExtResource("3_yaehf")
+texture_pressed = ExtResource("5_ryguw")
+texture_hover = ExtResource("5_a6jrf")
+
+[node name="Numus" type="CanvasGroup" parent="TerminalScreen/TopBar2/BarBg" unique_id=1217403747]
+clip_children = 1
+material = SubResource("ShaderMaterial_blvug")
+fit_margin = 0.0
+clear_margin = 0.0
+
+[node name="Numus_screen" type="TextureRect" parent="TerminalScreen/TopBar2/BarBg/Numus" unique_id=300156901]
+offset_left = 173.0
+offset_top = 6.0
+offset_right = 296.0
+offset_bottom = 64.0
+scale = Vector2(1e-05, 1e-05)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("4_074og")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="TerminalScreen/TopBar2/BarBg/Numus/Numus_screen" unique_id=269836246]
+layout_mode = 0
+offset_left = 6.0
+offset_right = 117.0
+offset_bottom = 58.0
+theme_override_colors/font_color = Color(0.72259015, 0.64945406, 0.5782699, 1)
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 35
+text = "31K"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="TerminalScreen/TopBar2/BarBg/Numus/Numus_screen" unique_id=50269256]
+stream = ExtResource("9_gngh3")
+bus = &"ButtonFX"
+
+[node name="Headcount" type="CanvasGroup" parent="TerminalScreen/TopBar2/BarBg" unique_id=988547381]
+material = SubResource("ShaderMaterial_blvug")
+fit_margin = 0.0
+clear_margin = 0.0
+
+[node name="headcount_screen" type="TextureRect" parent="TerminalScreen/TopBar2/BarBg/Headcount" unique_id=66254913]
+offset_left = 355.0
+offset_top = 6.0
+offset_right = 478.0
+offset_bottom = 64.0
+scale = Vector2(1e-05, 1e-05)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("6_cegan")
+
+[node name="Label2" type="Label" parent="TerminalScreen/TopBar2/BarBg/Headcount/headcount_screen" unique_id=1240412498]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 115.0
+offset_bottom = 58.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 35
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="TerminalScreen/TopBar2/BarBg/Headcount/headcount_screen" unique_id=1714961392]
+stream = ExtResource("9_gngh3")
+bus = &"ButtonFX"
+
+[node name="Merits" type="CanvasGroup" parent="TerminalScreen/TopBar2/BarBg" unique_id=738933260]
+material = SubResource("ShaderMaterial_blvug")
+fit_margin = 0.0
+clear_margin = 0.0
+
+[node name="merits_screen" type="TextureRect" parent="TerminalScreen/TopBar2/BarBg/Merits" unique_id=895915728]
+offset_left = 536.0
+offset_top = 6.0
+offset_right = 659.0
+offset_bottom = 64.0
+scale = Vector2(1e-05, 1e-05)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("7_82xsv")
+
+[node name="Label3" type="Label" parent="TerminalScreen/TopBar2/BarBg/Merits/merits_screen" unique_id=834323286]
+layout_mode = 0
+offset_left = 8.0
+offset_right = 115.0
+offset_bottom = 58.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 35
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="TerminalScreen/TopBar2/BarBg/Merits/merits_screen" unique_id=1985304844]
+stream = ExtResource("9_gngh3")
+bus = &"ButtonFX"
+
+[node name="ExitButton" type="TextureButton" parent="TerminalScreen/TopBar2/BarBg" unique_id=1562640063]
+layout_mode = 0
+offset_left = 669.0
+offset_top = 6.0
+offset_right = 714.0
+offset_bottom = 30.0
+texture_normal = ExtResource("11_seu75")
+texture_pressed = ExtResource("12_htxhm")
+
+[node name="ToggleAudioButton" type="TextureButton" parent="TerminalScreen/TopBar2/BarBg" unique_id=501201707]
+layout_mode = 0
+offset_left = 669.0
+offset_top = 40.0
+offset_right = 714.0
+offset_bottom = 64.0
+focus_mode = 0
+texture_normal = ExtResource("13_jq2sk")
+texture_pressed = ExtResource("14_4k2k6")
+script = ExtResource("15_4k2k6")
+unmuted_button_sprite = ExtResource("13_jq2sk")
+muted_button_sprite = ExtResource("13_0rl1p")
+
+[node name="Screen" type="TextureRect" parent="TerminalScreen" unique_id=330385687]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -410.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("2_0xm2m")
+
+[node name="CapiteCensiData" type="Control" parent="TerminalScreen/Screen" unique_id=1880251276]
+anchors_preset = 0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 411.0
+offset_bottom = 319.0
+
+[node name="CanvasGroup" type="CanvasGroup" parent="TerminalScreen/Screen/CapiteCensiData" unique_id=1543266208]
+material = SubResource("ShaderMaterial_nm1uh")
+fit_margin = 0.0
+clear_margin = 0.0
+use_mipmaps = true
+
+[node name="TextureRect" type="TextureRect" parent="TerminalScreen/Screen/CapiteCensiData/CanvasGroup" unique_id=1274298806]
+offset_right = 404.0
+offset_bottom = 312.0
+scale = Vector2(1e-05, 1e-05)
+pivot_offset = Vector2(0, 156)
+pivot_offset_ratio = Vector2(0.5, 0)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("10_cegan")
+expand_mode = 1
+
+[node name="Praenomina" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect" unique_id=1185379729]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 166.0
+offset_bottom = 31.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 22
+text = "PRAENOMINA: "
+vertical_alignment = 1
+
+[node name="Praenomina_Value" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect/Praenomina" unique_id=388321905]
+layout_mode = 1
+offset_left = 170.0
+offset_right = 314.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 22
+vertical_alignment = 1
+
+[node name="Nomina" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect" unique_id=1440603619]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 38.0
+offset_right = 152.0
+offset_bottom = 61.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 22
+text = "NOMINA:     "
+vertical_alignment = 1
+
+[node name="Nomina_Value" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect/Nomina" unique_id=348151823]
+layout_mode = 1
+offset_left = 170.0
+offset_right = 315.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 22
+vertical_alignment = 1
+
+[node name="Cognomina" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect" unique_id=2099788296]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 68.0
+offset_right = 166.0
+offset_bottom = 91.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 22
+text = "COGNOMINA:  "
+vertical_alignment = 1
+
+[node name="Cognomina_Value" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect/Cognomina" unique_id=722038922]
+layout_mode = 1
+offset_left = 170.0
+offset_right = 314.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 22
+vertical_alignment = 1
+
+[node name="Age" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect" unique_id=622618422]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 108.0
+offset_right = 152.0
+offset_bottom = 131.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 24
+text = "AGE:"
+vertical_alignment = 1
+
+[node name="Age_Value" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect/Age" unique_id=1146042619]
+layout_mode = 1
+offset_top = 24.0
+offset_right = 144.0
+offset_bottom = 47.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 24
+vertical_alignment = 1
+
+[node name="Debt" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect" unique_id=1627272091]
+layout_mode = 1
+offset_left = 8.0
+offset_top = 258.0
+offset_right = 266.0
+offset_bottom = 281.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 24
+text = "CURRENT DEBT:"
+vertical_alignment = 1
+
+[node name="Debt_value" type="Label" parent="TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect/Debt" unique_id=1028798782]
+layout_mode = 1
+offset_top = 24.0
+offset_right = 258.0
+offset_bottom = 47.0
+theme_override_colors/font_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 24
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect" unique_id=610559722]
+stream = ExtResource("9_gngh3")
+bus = &"ButtonFX"
+
+[node name="ProcessingProgressInfo" type="Control" parent="TerminalScreen/Screen" unique_id=2008333616]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -298.0
+offset_top = 7.0
+offset_right = -7.0
+offset_bottom = 319.0
+grow_horizontal = 0
+
+[node name="CanvasGroup" type="CanvasGroup" parent="TerminalScreen/Screen/ProcessingProgressInfo" unique_id=1390296593]
+material = SubResource("ShaderMaterial_vlfh8")
+fit_margin = 0.0
+
+[node name="TextureRect" type="TextureRect" parent="TerminalScreen/Screen/ProcessingProgressInfo/CanvasGroup" unique_id=517502361]
+offset_top = -1.0
+offset_right = 291.0
+offset_bottom = 311.0
+scale = Vector2(1e-05, 1e-05)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+texture = ExtResource("12_82xsv")
+
+[node name="ProgressBar" type="ProgressBar" parent="TerminalScreen/Screen/ProcessingProgressInfo/CanvasGroup/TextureRect" unique_id=413082905]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 286.0
+offset_bottom = 32.0
+theme_override_colors/font_color = Color(0.63198787, 0.23172149, 0, 1)
+theme_override_constants/outline_size = -1
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_styles/background = SubResource("StyleBoxFlat_yo5px")
+theme_override_styles/fill = SubResource("StyleBoxFlat_awi32")
+
+[node name="TextEdit" type="TextEdit" parent="TerminalScreen/Screen/ProcessingProgressInfo/CanvasGroup/TextureRect" unique_id=466597942 node_paths=PackedStringArray("terminal_script")]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 37.0
+offset_right = 286.0
+offset_bottom = 307.0
+focus_mode = 0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.36666667, 0, 1)
+theme_override_colors/font_readonly_color = Color(0.90588236, 0.5764706, 0.25490198, 1)
+theme_override_constants/caret_width = 0
+theme_override_constants/outline_size = 0
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_styles/normal = SubResource("StyleBoxFlat_4c57u")
+theme_override_styles/focus = SubResource("StyleBoxFlat_dg77c")
+theme_override_styles/read_only = SubResource("StyleBoxFlat_ajysn")
+editable = false
+context_menu_enabled = false
+emoji_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
+middle_mouse_paste_enabled = false
+empty_selection_clipboard_enabled = false
+wrap_mode = 1
+indent_wrapped_lines = true
+tab_input_mode = false
+virtual_keyboard_enabled = false
+caret_type = 1
+caret_blink = true
+draw_control_chars = true
+draw_tabs = true
+draw_spaces = true
+script = ExtResource("11_efxa6")
+terminal_script = NodePath("../../../../../..")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="TerminalScreen/Screen/ProcessingProgressInfo/CanvasGroup/TextureRect" unique_id=1759392655]
+stream = ExtResource("9_gngh3")
+bus = &"ButtonFX"
+
+[node name="ProcessButton" type="TextureButton" parent="TerminalScreen/Screen" unique_id=1171331562]
+modulate = Color(1, 0.791, 0.33999997, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -80.0
+offset_right = 411.0
+offset_bottom = -10.0
+grow_vertical = 0
+focus_mode = 0
+shortcut = SubResource("Shortcut_lswn8")
+texture_normal = ExtResource("4_7mycd")
+texture_pressed = ExtResource("5_272bh")
+texture_disabled = ExtResource("6_4c57u")
+
+[node name="Label" type="Label" parent="TerminalScreen/Screen/ProcessButton" unique_id=135586752]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.5
+offset_top = -27.0
+offset_right = 192.5
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0.9148823, 0.42976037, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 30
+text = "PROCESS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SubmitButton" type="TextureButton" parent="TerminalScreen/Screen" unique_id=19769313]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -298.0
+offset_top = -80.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 0
+shortcut = SubResource("Shortcut_xuqvo")
+texture_normal = ExtResource("6_5vw27")
+texture_pressed = ExtResource("7_kek77")
+texture_disabled = ExtResource("8_4c57u")
+
+[node name="Label" type="Label" parent="TerminalScreen/Screen/SubmitButton" unique_id=1504052782]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -136.0
+offset_top = -27.0
+offset_right = 137.0
+offset_bottom = 27.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.91, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 30
+text = "SUBMIT"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UpgradeScreen" type="TextureRect" parent="TerminalScreen" unique_id=106190974]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_top = 70.0
+offset_right = 720.0
+offset_bottom = 480.0
+texture = ExtResource("22_1u8w0")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="CanvasGroup" type="CanvasGroup" parent="TerminalScreen/UpgradeScreen" unique_id=290056251]
+material = SubResource("ShaderMaterial_pdrlu")
+fit_margin = 0.0
+
+[node name="Screen" type="TextureRect" parent="TerminalScreen/UpgradeScreen/CanvasGroup" unique_id=1434656366]
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 713.0
+offset_bottom = 403.0
+texture = ExtResource("23_0odxb")
+expand_mode = 1
+stretch_mode = 4
+script = ExtResource("30_gngh3")
+
+[node name="ProcessingEfficiency" type="Control" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" unique_id=1166532976]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Upgrade" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency" unique_id=1786490946]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 286.0
+offset_bottom = 82.0
+offset_transform_position = Vector2(16, 0)
+theme_override_colors/font_color = Color(1, 0.4666667, 0, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 36
+text = "Processing 
+ efficiency"
+vertical_alignment = 1
+
+[node name="CurrentCount" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency" unique_id=826064833]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 263.0
+offset_top = 12.0
+offset_right = 403.0
+offset_bottom = 82.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.46666667, 0, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 55
+text = " x0 "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Processing_Efficiency_Button" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency" unique_id=118347502]
+modulate = Color(0.99999994, 0.5340296, 0.27853656, 1)
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 410.0
+offset_top = 12.0
+offset_right = 650.00085
+offset_bottom = 82.0
+grow_horizontal = 0
+offset_transform_position = Vector2(-61.535, 0)
+focus_mode = 0
+texture_normal = ExtResource("30_ok6jj")
+texture_pressed = ExtResource("31_b1qrp")
+texture_hover = ExtResource("31_facbu")
+texture_disabled = ExtResource("33_d2t1y")
+stretch_mode = 0
+
+[node name="UpgradeCost" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency/Processing_Efficiency_Button" unique_id=1032006631]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 26
+text = "Nm 20.00 "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProcessingReturn" type="Control" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" unique_id=2056909027]
+anchors_preset = 0
+offset_top = 90.0
+offset_right = 40.0
+offset_bottom = 129.99997
+
+[node name="Upgrade" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn" unique_id=1614922994]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 286.0
+offset_bottom = 82.0
+offset_transform_position = Vector2(16, 0)
+theme_override_colors/font_color = Color(1, 0.4666667, 0, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 36
+text = "Processing 
+ Return    "
+vertical_alignment = 1
+
+[node name="CurrentCount" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn" unique_id=463269799]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 263.0
+offset_top = 12.0
+offset_right = 403.0
+offset_bottom = 82.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.46666667, 0, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 55
+text = " x0 "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Processing_Return_Button" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn" unique_id=866918574]
+modulate = Color(0.99999994, 0.5340296, 0.27853656, 1)
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 410.0
+offset_top = 12.0
+offset_right = 650.00085
+offset_bottom = 82.0
+grow_horizontal = 0
+offset_transform_position = Vector2(-61.535, 0)
+focus_mode = 0
+disabled = true
+texture_normal = ExtResource("30_ok6jj")
+texture_pressed = ExtResource("31_b1qrp")
+texture_hover = ExtResource("31_facbu")
+texture_disabled = ExtResource("33_d2t1y")
+stretch_mode = 0
+
+[node name="UpgradeCost" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn/Processing_Return_Button" unique_id=2141019375]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 26
+text = "Nm 50.00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AverageDebt" type="Control" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" unique_id=1110017468]
+anchors_preset = 0
+offset_top = 180.0
+offset_right = 40.0
+offset_bottom = 219.99997
+
+[node name="Upgrade" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt" unique_id=1155425919]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 286.0
+offset_bottom = 82.0
+offset_transform_position = Vector2(16, 0)
+theme_override_colors/font_color = Color(1, 0.4666667, 0, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 36
+text = " average   
+   debt    "
+vertical_alignment = 1
+
+[node name="CurrentCount" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt" unique_id=786440654]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 263.0
+offset_top = 12.0
+offset_right = 403.0
+offset_bottom = 82.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.46666667, 0, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 55
+text = " x0 "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Average_Debt_Button" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt" unique_id=639525592]
+modulate = Color(0.99999994, 0.5340296, 0.27853656, 1)
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 410.0
+offset_top = 12.0
+offset_right = 650.00085
+offset_bottom = 82.0
+grow_horizontal = 0
+offset_transform_position = Vector2(-61.535, 0)
+focus_mode = 0
+disabled = true
+texture_normal = ExtResource("30_ok6jj")
+texture_pressed = ExtResource("31_b1qrp")
+texture_hover = ExtResource("31_facbu")
+texture_disabled = ExtResource("33_d2t1y")
+stretch_mode = 0
+
+[node name="UpgradeCost" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt/Average_Debt_Button" unique_id=150896058]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 26
+text = "Nm 100.00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PrestigeButton" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" unique_id=793177274]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -325.0
+offset_top = -106.0
+offset_right = 325.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 0
+disabled = true
+texture_normal = ExtResource("33_4lmeg")
+texture_pressed = ExtResource("34_0cp0l")
+texture_hover = ExtResource("35_d2t1y")
+texture_disabled = ExtResource("36_0cp0l")
+
+[node name="Label" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/PrestigeButton" unique_id=1615000744]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_right = 282.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.32999998, 0.32999998, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 42
+text = "recycle workers"
+vertical_alignment = 1
+
+[node name="MeritsReturned" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/PrestigeButton" unique_id=1424149936]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -230.0
+offset_top = -3.5
+offset_right = -17.0
+offset_bottom = 3.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.5, 0.5, 1)
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 42
+text = "M̶ 1000"
+vertical_alignment = 1
+
+[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=817429582]
+current = true
+
+[node name="ProcessButtonAudio" type="AudioStreamPlayer" parent="." unique_id=2092993735]
+stream = ExtResource("20_getpj")
+bus = &"ButtonFX"
+
+[node name="UpgradeButtonAudio" type="AudioStreamPlayer" parent="." unique_id=872599925]
+stream = ExtResource("25_xuqvo")
+bus = &"ButtonFX"
+
+[node name="TerminalBlipSFX" type="AudioStreamPlayer" parent="." unique_id=2118864518]
+bus = &"ButtonFX"
+script = ExtResource("25_0odxb")
+
+[node name="TerminalHum" type="AudioStreamPlayer" parent="." unique_id=1429663728]
+bus = &"ButtonFX"
+script = ExtResource("26_lswn8")
+oscillation_speed = 10.0
+
+[node name="UpgradePanelSlideOut_SFX" type="AudioStreamPlayer" parent="." unique_id=409162427]
+script = ExtResource("29_qsp4k")
+scraping_volume = 0.2
+click_volume = 1.5
+
+[connection signal="button_down" from="TerminalScreen/TopBar2/BarBg/UpgradesButton" to="." method="_on_upgrades_button_button_down"]
+[connection signal="button_up" from="TerminalScreen/TopBar2/BarBg/UpgradesButton" to="." method="_on_texture_button_button_up"]
+[connection signal="button_down" from="TerminalScreen/TopBar2/BarBg/ExitButton" to="." method="_on_exit_button_button_down"]
+[connection signal="button_up" from="TerminalScreen/TopBar2/BarBg/ExitButton" to="." method="_on_exit_button_button_up"]
+[connection signal="button_up" from="TerminalScreen/TopBar2/BarBg/ToggleAudioButton" to="TerminalScreen/TopBar2/BarBg/ToggleAudioButton" method="_on_button_up"]
+[connection signal="button_down" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency/Processing_Efficiency_Button" to="TerminalBlipSFX" method="_on_processing_efficiency_button_button_down"]
+[connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency/Processing_Efficiency_Button" to="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" method="_on_processing_efficiency_button_button_up"]
+[connection signal="button_down" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn/Processing_Return_Button" to="TerminalBlipSFX" method="_on_processing_return_button_button_down"]
+[connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn/Processing_Return_Button" to="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" method="_on_processing_return_button_button_up"]
+[connection signal="button_down" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt/Average_Debt_Button" to="TerminalBlipSFX" method="_on_average_debt_button_button_down"]
+[connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt/Average_Debt_Button" to="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" method="_on_average_debt_button_button_up"]

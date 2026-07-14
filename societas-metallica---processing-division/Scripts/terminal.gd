@@ -43,13 +43,18 @@ extends Control
 signal should_iterate_console
 signal terminal_beep_sfx
 signal submission_beep_sfx
+signal boot_finished
 
 var base_pos: Vector2
-func _ready() -> void:
+
+var first_subject: bool = true
+
+func on_ready() -> void:
 	refresh_finacial_data()
 	await get_tree().create_timer(0.5).timeout
 	await boot_sequence()
 	set_default_upgrade_values()
+	await get_tree().create_timer(2).timeout
 	upgrade_screen.visible = false
 	base_pos = position
 	
@@ -74,6 +79,8 @@ func boot_sequence() -> void:
 		
 		if i < terminals.size() - 1:
 			await  get_tree().create_timer(0.25).timeout
+	await get_tree().create_timer(0.7).timeout
+	boot_finished.emit()
 
 func boot_up_terminal(terminal_index: int) -> void:
 	# boot up stuff
@@ -141,6 +148,7 @@ func update_subject_details() -> void:
 	if subject.is_empty(): return
 	
 	terminal_beep_sfx.emit()
+	
 	praenomia_label.text = " " + subject["praenomia"] + " "
 	nomia_label.text = " " + subject["nomia"] + " "
 	cognomia_label.text = " " + subject["cognomia"] + " "
@@ -244,6 +252,7 @@ func _on_exit_button_button_down() -> void:
 func _on_exit_button_button_up() -> void:
 	#replace later 
 	GameManager.cut_audio.emit()
+	GameManager.save_game()
 	await shut_down_sequence()
 	await get_tree().create_timer(1).timeout
 	get_tree().quit()

@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://cvbafbdv5y37j"]
+
+[ext_resource type="Shader" uid="uid://c4lwyqeisokva" path="res://shaders/crt_effect.gdshader" id="1_ylmtb"]
+[ext_resource type="Texture2D" uid="uid://bigjc5jcbtqey" path="res://UI/Sprites/main_menu_screen.png" id="2_0ft63"]
+[ext_resource type="FontFile" uid="uid://d3qs0enmhqdvl" path="res://UI/Fonts/HomeVideo-BLG6G.ttf" id="3_qjfvo"]
+[ext_resource type="Texture2D" uid="uid://b6u3sp28iub8x" path="res://UI/Sprites/main_menu_panel.png" id="3_y8ko8"]
+[ext_resource type="FontFile" uid="uid://bx24wiouehlbu" path="res://UI/Fonts/HomeVideoBold-R90Dv.ttf" id="4_lfpg5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g7b7a"]
+shader = ExtResource("1_ylmtb")
+shader_parameter/scan_line_thickness = 0.8590000408025
+shader_parameter/scanline_opacity = 0.298000014155
+shader_parameter/scroll_speed = 1.9470005674824993
+shader_parameter/fisheye_curvature = 0.0510000024225
+shader_parameter/vignette_intensity = 0.754000035815
+shader_parameter/vignette_colour = Color(0, 0.071081735, 0, 1)
+shader_parameter/screen_noise_intensity = 0.20000000298023
+shader_parameter/scanline_noise_intensity = 1.9640000932900001
+shader_parameter/scanline_density = 12.10000009975
+shader_parameter/glow_intensity = 4.0
+shader_parameter/glow_threshold = 0.50000002375
+
+[node name="MenuScreen" type="Control" unique_id=2080034709]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasGroup" type="CanvasGroup" parent="." unique_id=692927465]
+material = SubResource("ShaderMaterial_g7b7a")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasGroup" unique_id=1385365029]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 713.0
+offset_bottom = 473.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_0ft63")
+
+[node name="Label" type="Label" parent="CanvasGroup" unique_id=1594323250]
+modulate = Color(1, 0.5540219, 0.4906062, 1)
+offset_left = 20.0
+offset_top = 50.0
+offset_right = 320.0
+offset_bottom = 150.0
+theme_override_fonts/font = ExtResource("3_qjfvo")
+theme_override_font_sizes/font_size = 54
+text = "societas
+metallica"
+
+[node name="Label2" type="Label" parent="CanvasGroup" unique_id=2087216458]
+modulate = Color(0.9999928, 0.40057957, 0.33344764, 1)
+offset_left = 20.0
+offset_top = 160.0
+offset_right = 636.0
+offset_bottom = 260.0
+theme_override_fonts/font = ExtResource("4_lfpg5")
+theme_override_font_sizes/font_size = 26
+text = "processing division"
+
+[node name="Panel" type="TextureRect" parent="." unique_id=1053421108]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_y8ko8")

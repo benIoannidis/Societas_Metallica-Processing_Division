@@ -25,7 +25,10 @@ var return_upgrade_count: int = 0
 var debt_upgrade_count: int = 0
 
 func _ready() -> void:
+	print(OS.get_user_data_dir())
 	initialise_tick_timer()
+	load_game()
+	finacial_state_updated.emit()
 
 func initialise_tick_timer() -> void:
 	var tick_timer = Timer.new()
@@ -89,3 +92,33 @@ func upgrade_average_debt() -> void:
 	debt_upgrade_cost *= 4.0
 	debt_upgrade_count += 1
 	upgrade_purchased.emit()
+
+func save_game() -> void:
+	var file_access: FileAccess = FileAccess.open("res://save.dat",FileAccess.WRITE)
+	file_access.store_var(total_numus)
+	file_access.store_var(total_headcount)
+	file_access.store_var(total_imperium_merits)
+	file_access.store_var(efficiency_upgrade_count)
+	file_access.store_var(efficiency_upgrade_cost)
+	file_access.store_var(return_upgrade_count)
+	file_access.store_var(return_upgrade_cost)
+	file_access.store_var(debt_upgrade_count)
+	file_access.store_var(debt_upgrade_cost)
+	file_access.close()
+
+func load_game() -> void:
+	if not FileAccess.file_exists("res://save.dat"):
+		save_game()
+		return
+	var file_access: FileAccess = FileAccess.open("res://save.dat", FileAccess.READ)
+	if file_access:
+		total_numus = file_access.get_var()
+		total_headcount = file_access.get_var()
+		total_imperium_merits = file_access.get_var()
+		efficiency_upgrade_count = file_access.get_var()
+		efficiency_upgrade_cost = file_access.get_var()
+		return_upgrade_count = file_access.get_var()
+		return_upgrade_cost = file_access.get_var()
+		debt_upgrade_count = file_access.get_var()
+		debt_upgrade_cost = file_access.get_var()
+		file_access.close()

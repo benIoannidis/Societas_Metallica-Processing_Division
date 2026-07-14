@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Societas Metallica - Processing Division"
-run/main_scene="uid://b3c7xvctt7ymc"
+run/main_scene="uid://umju3xvtvhns"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
