@@ -6,16 +6,27 @@ signal new_subject
 signal toggle_upgrade_screen
 signal upgrade_purchased
 signal cut_audio
+signal can_prestige
+signal game_running
+signal menu_open
+
+var save_exists: bool = false
 
 var total_numus: float = 0.0
 var total_headcount: int = 0
+var lifetime_headcount: int = 0
 var total_imperium_merits: int = 0
 var audit_efficiency: float = 1.0
 var audit_complete_payout_percentage: float = 0.01
 var numus_per_second: float = 0.0
 
+# --- merits calc ---
+const BASE_MERIT_COST: float = 100.0
+const SCALE_EXPONENT: float = 1.5
+
 var active_subject: Dictionary = {}
 
+# --- run upgrades ---
 var efficiency_upgrade_cost: float = 10.0
 var return_upgrade_cost: float = 30.0
 var debt_upgrade_cost: float = 60.0
@@ -24,11 +35,19 @@ var efficiency_upgrade_count: int = 0
 var return_upgrade_count: int = 0
 var debt_upgrade_count: int = 0
 
+# --- merit upgrades ---
+var automation_speed_level: int = 0
+var passive_numus_level: int = 0
+var data_bus_multiplier: float = 1.0 # numus gains multiplier
+
+var save_path: String = "res://save.dat"
+
 func _ready() -> void:
-	print(OS.get_user_data_dir())
 	initialise_tick_timer()
 	load_game()
 	finacial_state_updated.emit()
+	await get_tree().create_timer(1.5).timeout
+	menu_open.emit()
 
 func initialise_tick_timer() -> void:
 	var tick_timer = Timer.new()
@@ -71,6 +90,9 @@ func request_new_subject() -> void:
 	
 	active_subject = SubjectGenerator.generate_profile(tier)
 	new_subject.emit()
+	
+	if get_pending_merits() > 0:
+		can_prestige.emit()
 
 func upgrade_efficiency() -> void:
 	total_numus -= efficiency_upgrade_cost
@@ -93,10 +115,73 @@ func upgrade_average_debt() -> void:
 	debt_upgrade_count += 1
 	upgrade_purchased.emit()
 
+func get_total_merits_earned_for_lifetime_count(headcount: int) -> int:
+	if headcount < BASE_MERIT_COST:
+		return 0
+	return int(pow(float(headcount)/ BASE_MERIT_COST, 1.0 / SCALE_EXPONENT))
+
+func get_pending_merits() -> int:
+	var potential_lifetime: int = lifetime_headcount + total_headcount
+	var target_total: int = get_total_merits_earned_for_lifetime_count(potential_lifetime)
+	
+	return max(0, target_total - total_imperium_merits)
+
+func perform_prestige() -> void:
+	var pending: int = get_pending_merits()
+	if pending <= 0:
+		return
+	total_imperium_merits += pending
+	lifetime_headcount += total_headcount
+	
+	total_numus = 0.0 
+	total_headcount = 0
+	
+	efficiency_upgrade_count = 0
+	efficiency_upgrade_cost = 10.0
+	return_upgrade_count = 0
+	return_upgrade_cost = 30.0
+	debt_upgrade_count = 0
+	debt_upgrade_cost = 60.0
+	
+	save_game()
+	
+	request_new_subject()
+	
+	finacial_state_updated.emit()
+
+func clear_save() -> void:
+	if FileAccess.file_exists(save_path):
+		DirAccess.remove_absolute(save_path)
+		
+		total_numus = 0.0
+		total_headcount = 0
+		lifetime_headcount = 0
+		total_imperium_merits = 0
+		audit_efficiency = 1.0
+		audit_complete_payout_percentage = 0.01
+		numus_per_second = 0.0
+		
+		efficiency_upgrade_cost = 10.0
+		return_upgrade_cost = 30.0
+		debt_upgrade_cost = 60.0
+		
+		efficiency_upgrade_count = 0
+		return_upgrade_count = 0
+		debt_upgrade_count = 0
+		
+		# --- merit upgrades ---
+		automation_speed_level = 0
+		passive_numus_level = 0
+		data_bus_multiplier = 1.0 # numus gains multiplier
+		
+		active_subject.clear()
+		save_game()
+
 func save_game() -> void:
-	var file_access: FileAccess = FileAccess.open("res://save.dat",FileAccess.WRITE)
+	var file_access: FileAccess = FileAccess.open(save_path,FileAccess.WRITE)
 	file_access.store_var(total_numus)
 	file_access.store_var(total_headcount)
+	file_access.store_var(lifetime_headcount)
 	file_access.store_var(total_imperium_merits)
 	file_access.store_var(efficiency_upgrade_count)
 	file_access.store_var(efficiency_upgrade_cost)
@@ -107,13 +192,17 @@ func save_game() -> void:
 	file_access.close()
 
 func load_game() -> void:
-	if not FileAccess.file_exists("res://save.dat"):
+	if not FileAccess.file_exists(save_path):
 		save_game()
 		return
-	var file_access: FileAccess = FileAccess.open("res://save.dat", FileAccess.READ)
+	else:
+		save_exists = true
+	
+	var file_access: FileAccess = FileAccess.open(save_path, FileAccess.READ)
 	if file_access:
 		total_numus = file_access.get_var()
 		total_headcount = file_access.get_var()
+		lifetime_headcount = file_access.get_var()
 		total_imperium_merits = file_access.get_var()
 		efficiency_upgrade_count = file_access.get_var()
 		efficiency_upgrade_cost = file_access.get_var()

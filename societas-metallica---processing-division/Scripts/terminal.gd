@@ -3,6 +3,7 @@ extends Control
 @export var terminals: Array[TextureRect]
 @export var terminal_off_sfx: AudioStream
 @export var terminal_on_sfx: AudioStream
+@export var terminal_hum_sfx: AudioStreamPlayer
 
 @export var praenomia_label: Label
 @export var nomia_label: Label
@@ -25,6 +26,7 @@ extends Control
 @export var upgrade_button_audio: AudioStreamPlayer
 
 @export var processing_screen: TextureRect
+@export var processing_text: TextEdit
 @export var upgrade_screen: TextureRect
 @export var upgrade_screen_sfx: AudioStreamPlayer
 
@@ -44,10 +46,14 @@ signal should_iterate_console
 signal terminal_beep_sfx
 signal submission_beep_sfx
 signal boot_finished
+signal game_quit
 
 var base_pos: Vector2
 
 var first_subject: bool = true
+
+func _ready() -> void:
+	GameManager.game_running.connect(on_ready)
 
 func on_ready() -> void:
 	refresh_finacial_data()
@@ -73,6 +79,14 @@ func on_ready() -> void:
 		GameManager.request_new_subject()
 		update_subject_details()
 
+func new_game() -> void:
+	praenomia_label.text = ""
+	nomia_label.text = ""
+	cognomia_label.text = ""
+	age_label.text = ""
+	debt_label.text = ""
+	processing_text.text = ""
+
 func boot_sequence() -> void:
 	for i in range(terminals.size()):
 		await  boot_up_terminal(i)
@@ -80,6 +94,7 @@ func boot_sequence() -> void:
 		if i < terminals.size() - 1:
 			await  get_tree().create_timer(0.25).timeout
 	await get_tree().create_timer(0.7).timeout
+	terminal_hum_sfx.start_hum()
 	boot_finished.emit()
 
 func boot_up_terminal(terminal_index: int) -> void:
@@ -188,6 +203,7 @@ func _on_submit_button_pressed() -> void:
 	update_subject_details()
 
 func _on_process_button_pressed() -> void:
+	#process_button_audio.pitch_scale *= randf_range(0.8, 1.1)
 	process_button_audio.play()
 	GameManager.apply_manual_audit_strike()
 	execute_screen_shake_fx()
@@ -255,7 +271,7 @@ func _on_exit_button_button_up() -> void:
 	GameManager.save_game()
 	await shut_down_sequence()
 	await get_tree().create_timer(1).timeout
-	get_tree().quit()
+	game_quit.emit()
 
 func set_default_upgrade_values() -> void:
 	efficiency_button.disabled = true
@@ -282,3 +298,8 @@ func update_upgrade_buttons() -> void:
 	return_label.text = "NM " + String.num(GameManager.return_upgrade_cost, 2)
 	debt_count_label.text = "x" + String.num(GameManager.debt_upgrade_count, 2)
 	debtupgrade_label.text = "NM " + String.num(GameManager.debt_upgrade_cost, 2)
+	
+	var merits = GameManager.get_pending_merits()
+	if merits > 0:
+		prestige_button.disabled = false
+		prestige_label.text = "M̶ " + str(merits)

@@ -141,7 +141,7 @@ shader_parameter/scanline_density = 58.9610023256475
 shader_parameter/glow_intensity = 4.0
 shader_parameter/glow_threshold = 0.450000021375
 
-[node name="GameScreen" type="Control" unique_id=639852667 node_paths=PackedStringArray("terminals", "praenomia_label", "nomia_label", "cognomia_label", "age_label", "debt_label", "numus_label", "headcount_label", "imperium_merit_label", "process_button", "submit_button", "process_button_audio", "progress_bar", "upgrades_button", "upgrade_button_audio", "processing_screen", "upgrade_screen", "upgrade_screen_sfx", "efficiency_button", "efficiency_label", "efficiency_count_label", "return_button", "return_label", "return_count_label", "debtupgrade_button", "debtupgrade_label", "debt_count_label", "prestige_button", "prestige_label")]
+[node name="GameScreen" type="Control" unique_id=639852667 node_paths=PackedStringArray("terminals", "terminal_hum_sfx", "praenomia_label", "nomia_label", "cognomia_label", "age_label", "debt_label", "numus_label", "headcount_label", "imperium_merit_label", "process_button", "submit_button", "process_button_audio", "progress_bar", "upgrades_button", "upgrade_button_audio", "processing_screen", "processing_text", "upgrade_screen", "upgrade_screen_sfx", "efficiency_button", "efficiency_label", "efficiency_count_label", "return_button", "return_label", "return_count_label", "debtupgrade_button", "debtupgrade_label", "debt_count_label", "prestige_button", "prestige_label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -152,6 +152,7 @@ script = ExtResource("1_dg77c")
 terminals = [NodePath("TerminalScreen/TopBar2/BarBg/Numus/Numus_screen"), NodePath("TerminalScreen/TopBar2/BarBg/Headcount/headcount_screen"), NodePath("TerminalScreen/TopBar2/BarBg/Merits/merits_screen"), NodePath("TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect"), NodePath("TerminalScreen/Screen/ProcessingProgressInfo/CanvasGroup/TextureRect")]
 terminal_off_sfx = ExtResource("9_gngh3")
 terminal_on_sfx = ExtResource("3_0n3wm")
+terminal_hum_sfx = NodePath("TerminalHum")
 praenomia_label = NodePath("TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect/Praenomina/Praenomina_Value")
 nomia_label = NodePath("TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect/Nomina/Nomina_Value")
 cognomia_label = NodePath("TerminalScreen/Screen/CapiteCensiData/CanvasGroup/TextureRect/Cognomina/Cognomina_Value")
@@ -167,6 +168,7 @@ progress_bar = NodePath("TerminalScreen/Screen/ProcessingProgressInfo/CanvasGrou
 upgrades_button = NodePath("TerminalScreen/TopBar2/BarBg/UpgradesButton")
 upgrade_button_audio = NodePath("UpgradeButtonAudio")
 processing_screen = NodePath("TerminalScreen/Screen")
+processing_text = NodePath("TerminalScreen/Screen/ProcessingProgressInfo/CanvasGroup/TextureRect/TextEdit")
 upgrade_screen = NodePath("TerminalScreen/UpgradeScreen")
 upgrade_screen_sfx = NodePath("UpgradePanelSlideOut_SFX")
 efficiency_button = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency/Processing_Efficiency_Button")
@@ -919,11 +921,8 @@ grow_vertical = 2
 theme_override_colors/font_color = Color(1, 0.5, 0.5, 1)
 theme_override_fonts/font = ExtResource("6_kek77")
 theme_override_font_sizes/font_size = 42
-text = "M̶ 1000"
+text = "M̶ 0"
 vertical_alignment = 1
-
-[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=817429582]
-current = true
 
 [node name="ProcessButtonAudio" type="AudioStreamPlayer" parent="." unique_id=2092993735]
 stream = ExtResource("20_getpj")
@@ -958,3 +957,4 @@ click_volume = 1.5
 [connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn/Processing_Return_Button" to="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" method="_on_processing_return_button_button_up"]
 [connection signal="button_down" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt/Average_Debt_Button" to="TerminalBlipSFX" method="_on_average_debt_button_button_down"]
 [connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt/Average_Debt_Button" to="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" method="_on_average_debt_button_button_up"]
+[connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/PrestigeButton" to="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" method="_on_prestige_button_button_up"]

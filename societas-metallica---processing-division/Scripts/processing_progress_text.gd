@@ -18,16 +18,19 @@ var active_tween: Tween
 
 var current_animating_line: String
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	GameManager.game_running.connect(on_ready)
+	GameManager.active_subject_completed.connect(_on_subject_completed)
+	GameManager.new_subject.connect(_on_new_subject)
+	terminal_script.should_iterate_console.connect(print_next_line)
+
+func on_ready() -> void:
 	if get_children().size() > 0:
 		for child in get_children():
 			if child is VScrollBar:
 				child.visible = false
 				break
-	GameManager.active_subject_completed.connect(_on_subject_completed)
-	GameManager.new_subject.connect(_on_new_subject)
-	terminal_script.should_iterate_console.connect(print_next_line)
+	
 	get_v_scroll_bar().modulate.a = 0.0
 
 func animate_top_line(full_new_line: String) -> void:

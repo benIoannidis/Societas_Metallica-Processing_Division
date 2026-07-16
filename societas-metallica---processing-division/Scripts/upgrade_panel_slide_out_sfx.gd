@@ -64,7 +64,6 @@ func play_slide_open_sfx() -> void:
 		
 		playback.push_frame(Vector2(sample, sample))
 
-
 func play_slide_close_sfx() -> void:
 	var generator = AudioStreamGenerator.new()
 	generator.mix_rate = 44100

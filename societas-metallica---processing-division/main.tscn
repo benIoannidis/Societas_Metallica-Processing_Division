@@ -21,3 +21,5 @@ layout_mode = 1
 [node name="GameScreen" parent="." unique_id=639852667 instance=ExtResource("1_ig7tw")]
 visible = false
 layout_mode = 1
+
+[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=1461093638]
