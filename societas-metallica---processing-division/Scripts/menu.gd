@@ -219,36 +219,36 @@ func fade_in_buttons() -> void:
 	
 	fade_in_tween.tween_callback(play_button_blip)
 	
-	fade_in_tween.tween_property(play_continue_button, "modulate", target_colour_1, 0.5)\
+	fade_in_tween.tween_property(play_continue_button, "modulate", target_colour_1, 0.3)\
 	.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
 	
 	fade_in_tween.tween_interval(0.1)
 	
 	fade_in_tween.tween_callback(play_button_blip)
-	fade_in_tween.parallel().tween_property(new_game_button, "modulate", target_colour_1, 0.5)\
+	fade_in_tween.parallel().tween_property(new_game_button, "modulate", target_colour_1, 0.3)\
 	.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
 	
 	fade_in_tween.tween_interval(0.1)
 	
 	fade_in_tween.tween_callback(play_button_blip)
-	fade_in_tween.parallel().tween_property(exit_button, "modulate", target_colour_1, 0.5)\
+	fade_in_tween.parallel().tween_property(exit_button, "modulate", target_colour_1, 0.3)\
 	.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
 	
-	fade_in_tween.tween_callback(func(): play_button_fade_noise(0.2))
+	fade_in_tween.tween_callback(func(): play_button_fade_noise(0.1))
 	
 	fade_in_tween.tween_interval(0.05)
-	fade_in_tween.tween_property(play_continue_button, "modulate", target_colour_2, 0.2)\
+	fade_in_tween.tween_property(play_continue_button, "modulate", target_colour_2, 0.1)\
 	.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
 	
-	fade_in_tween.tween_callback(func(): play_button_fade_noise(0.2))
+	fade_in_tween.tween_callback(func(): play_button_fade_noise(0.1))
 	fade_in_tween.tween_interval(0.05)
 	
-	fade_in_tween.parallel().tween_property(new_game_button, "modulate", target_colour_2, 0.2)\
+	fade_in_tween.parallel().tween_property(new_game_button, "modulate", target_colour_2, 0.1)\
 	.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
 	
-	fade_in_tween.tween_callback(func(): play_button_fade_noise(0.2))
+	fade_in_tween.tween_callback(func(): play_button_fade_noise(0.1))
 	fade_in_tween.tween_interval(0.05)
-	fade_in_tween.parallel().tween_property(exit_button, "modulate", target_colour_2, 0.2)\
+	fade_in_tween.parallel().tween_property(exit_button, "modulate", target_colour_2, 0.1)\
 	.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
 	
 	await fade_in_tween.finished
@@ -301,16 +301,20 @@ func play_button_fade_noise(duration: float) -> void:
 		return
 	
 	var num_frames: int = int(generator.mix_rate * duration)
-	var filter_accumulator: float = 0.0
+	
+	var current_noise_value: float = 0.0
+	var downsample_rate: int = 8
 	
 	for i in range(num_frames):
 		var progress: float = float(i) / num_frames
-		var raw_noise: float = randf_range(-1.0, 1.0)
 		
-		filter_accumulator = lerp(filter_accumulator, raw_noise, 0.28)
+		if i % downsample_rate == 0:
+			current_noise_value = randf_range(-1.0, 1.0)
 		
-		var volume_envelope: float = sin(progress * PI) * 0.012
-		var sample: float = filter_accumulator * volume_envelope
+		var raw_sine: float = sin(progress * PI)
+		
+		var volume_envelope: float = (raw_sine * raw_sine) * 0.05
+		var sample: float = current_noise_value * volume_envelope
 		
 		playback.push_frame(Vector2(sample, sample))
 	

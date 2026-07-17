@@ -3,13 +3,9 @@ extends AudioStreamPlayer
 @onready var terminal: Control = $".."
 
 func _ready() -> void:
-	GameManager.game_running.connect(on_ready)
-
-func on_ready() -> void:
 	terminal.boot_finished.connect(start_up_sound)
 	terminal.terminal_beep_sfx.connect(func():play_blip_sfx(false))
 	terminal.submission_beep_sfx.connect(func():play_blip_sfx(true))
-
 
 func play_blip_sfx(submission_blip: bool) -> void:
 	var generator: AudioStreamGenerator = AudioStreamGenerator.new()

@@ -54,17 +54,6 @@ var first_subject: bool = true
 
 func _ready() -> void:
 	GameManager.game_running.connect(on_ready)
-
-func on_ready() -> void:
-	refresh_finacial_data()
-	await get_tree().create_timer(0.5).timeout
-	await boot_sequence()
-	set_default_upgrade_values()
-	await get_tree().create_timer(2).timeout
-	upgrade_screen.visible = false
-	base_pos = position
-	
-	submit_button.disabled = true
 	GameManager.finacial_state_updated.connect(refresh_finacial_data)
 	GameManager.active_subject_completed.connect(_on_subject_completion)
 	GameManager.upgrade_purchased.connect(
@@ -74,6 +63,27 @@ func on_ready() -> void:
 		)
 	process_button.pressed.connect(_on_process_button_pressed)
 	submit_button.pressed.connect(_on_submit_button_pressed)
+	GameManager.prestige_performed.connect(
+		func():
+		refresh_finacial_data()
+		update_upgrade_buttons()
+		update_subject_details()
+		)
+
+func on_ready() -> void:
+	upgrades_button.disabled = true
+	processing_screen.visible = true
+	upgrade_screen.visible = false
+	refresh_finacial_data()
+	await get_tree().create_timer(0.5).timeout
+	await boot_sequence()
+	set_default_upgrade_values()
+	await get_tree().create_timer(2).timeout
+	upgrade_screen.visible = false
+	base_pos = position
+	
+	submit_button.disabled = true
+	
 	
 	if GameManager.active_subject.is_empty():
 		GameManager.request_new_subject()
@@ -95,6 +105,7 @@ func boot_sequence() -> void:
 			await  get_tree().create_timer(0.25).timeout
 	await get_tree().create_timer(0.7).timeout
 	terminal_hum_sfx.start_hum()
+	upgrades_button.disabled = false
 	boot_finished.emit()
 
 func boot_up_terminal(terminal_index: int) -> void:
@@ -121,6 +132,8 @@ func boot_up_terminal(terminal_index: int) -> void:
 		#boot_up_terminal(terminal_index + 1)
 
 func shut_down_sequence() -> void:
+	if upgrade_screen.visible:
+		await close_upgrade_panel()
 	for i in range(terminals.size()-1,-1,-1):
 		await shut_down_terminal(i)
 		
@@ -150,6 +163,7 @@ func get_audio_child(terminal: TextureRect) -> AudioStreamPlayer:
 		if child is AudioStreamPlayer:
 			return child 
 	return null
+
 func refresh_finacial_data() -> void:
 	var numus_amount: String = String.num(GameManager.total_numus, 2)
 	if GameManager.total_numus > 99.9:
@@ -205,10 +219,11 @@ func _on_submit_button_pressed() -> void:
 func _on_process_button_pressed() -> void:
 	#process_button_audio.pitch_scale *= randf_range(0.8, 1.1)
 	process_button_audio.play()
-	GameManager.apply_manual_audit_strike()
 	execute_screen_shake_fx()
-	progress_bar.value = GameManager.active_subject["assess_steps"] - GameManager.active_subject["remaining_assessment"]
-	should_iterate_console.emit()
+	if GameManager.active_subject:
+		GameManager.apply_manual_audit_strike()
+		progress_bar.value = GameManager.active_subject["assess_steps"] - GameManager.active_subject["remaining_assessment"]
+		should_iterate_console.emit()
 
 func execute_screen_shake_fx() -> void:
 	var tween = create_tween()
@@ -261,6 +276,7 @@ func close_upgrade_panel() -> void:
 		.set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_IN)
 	
 	tween.chain().tween_callback(func(): upgrade_screen.visible = false)
+	await tween.finished
 
 func _on_exit_button_button_down() -> void:
 	upgrade_button_audio.play()

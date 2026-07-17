@@ -7,6 +7,7 @@ signal toggle_upgrade_screen
 signal upgrade_purchased
 signal cut_audio
 signal can_prestige
+signal prestige_performed
 signal game_running
 signal menu_open
 
@@ -115,6 +116,16 @@ func upgrade_average_debt() -> void:
 	debt_upgrade_count += 1
 	upgrade_purchased.emit()
 
+func upgrades_from_load() -> void:
+	for i in range(1,efficiency_upgrade_count):
+		audit_efficiency += (audit_efficiency * 0.1)
+	
+	for i in range(1,return_upgrade_count):
+		audit_complete_payout_percentage *= 2.0
+	
+	for i in range(1, debt_upgrade_count):
+		SubjectGenerator.average_debt_multiplier *= 1.5
+
 func get_total_merits_earned_for_lifetime_count(headcount: int) -> int:
 	if headcount < BASE_MERIT_COST:
 		return 0
@@ -148,6 +159,8 @@ func perform_prestige() -> void:
 	request_new_subject()
 	
 	finacial_state_updated.emit()
+	
+	prestige_performed.emit()
 
 func clear_save() -> void:
 	if FileAccess.file_exists(save_path):
@@ -204,6 +217,7 @@ func load_game() -> void:
 		total_headcount = file_access.get_var()
 		lifetime_headcount = file_access.get_var()
 		total_imperium_merits = file_access.get_var()
+		
 		efficiency_upgrade_count = file_access.get_var()
 		efficiency_upgrade_cost = file_access.get_var()
 		return_upgrade_count = file_access.get_var()
@@ -211,3 +225,5 @@ func load_game() -> void:
 		debt_upgrade_count = file_access.get_var()
 		debt_upgrade_cost = file_access.get_var()
 		file_access.close()
+		
+		upgrades_from_load()
