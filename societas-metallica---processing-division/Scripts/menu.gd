@@ -1,24 +1,27 @@
 extends Control
 
 signal continue_pressed
-signal new_game_pressed
 
 @export var terminal_off_sfx: AudioStream
 @export var terminal_on_sfx: AudioStream
 
-@onready var title_label_1: Label = $CanvasGroup/Label
+@onready var title_label_1: Label = $CanvasGroup/Menu/Label
 var title_1: String = "Societas\nMetallica"
-@onready var title_label_2: Label = $CanvasGroup/Label2
+@onready var title_label_2: Label = $CanvasGroup/Menu/Label2
 var title_2: String = "Processing Division"
 
-@onready var terminal: TextureRect = $CanvasGroup/TextureRect
+@onready var terminal: TextureRect = $CanvasGroup/Background
 
 @onready var terminal_hum: AudioStreamPlayer = $TerminalHum
 
-@onready var play_continue_button: TextureButton = $CanvasGroup/PlayContinueButton
-@onready var play_continue_label: Label = $CanvasGroup/PlayContinueButton/Label
-@onready var new_game_button: TextureButton = $CanvasGroup/NewGameButton
-@onready var exit_button: TextureButton = $CanvasGroup/ExitButton
+@onready var play_continue_button: TextureButton = $CanvasGroup/Menu/PlayButton
+@onready var stats_button: TextureButton = $CanvasGroup/Menu/StatsButton
+@onready var exit_button: TextureButton = $CanvasGroup/Menu/ExitButton
+
+@onready var menu_screen: Control = $CanvasGroup/Menu
+@onready var static_overlay: ColorRect = $StaticOverlay
+@onready var stats_screen: Control = $CanvasGroup/Stats
+
 
 var last_char_count: int = 0
 
@@ -34,22 +37,19 @@ func on_ready() -> void:
 func hide_screen() -> void:
 	terminal.scale = Vector2.ZERO
 	play_continue_button.modulate = Color(0.0,0.0,0.0,0.0)
-	if not GameManager.save_exists:
-		play_continue_label.text = "Start"
-		new_game_button.visible = false
-	else:
-		new_game_button.modulate = Color(0.0,0.0,0.0,0.0)
-		play_continue_label.text = "Continue"
+	stats_button.modulate = Color(0.0,0.0,0.0,0.0)
 	exit_button.modulate = Color(0.0,0.0,0.0,0.0)
 	
 	play_continue_button.disabled = true
-	new_game_button.disabled = true
+	stats_button.disabled = true
 	exit_button.disabled = true
 	
 	title_label_1.text = ""
 	title_label_2.text = ""
 	title_label_1.modulate = Color.from_hsv(0.07, 0.51, 1.0, 1.0)
 	title_label_2.modulate = Color.from_hsv(0.06, 0.67, 1.0, 1.0)
+	
+	static_overlay.visible = false
 
 func boot_up_terminal() -> void:
 	# boot up stuff
@@ -81,15 +81,13 @@ func shut_down_terminal() -> void:
 	shutdown_tween.parallel().tween_property(title_label_2, "modulate", Color(0.9, 0.9, 0.9, 1.0), 0.2)
 	
 	shutdown_tween.parallel().tween_property(play_continue_button, "modulate", Color(0.0, 0.0, 0.0, 1.0), 0.2)
-	if GameManager.save_exists:
-		shutdown_tween.parallel().tween_property(new_game_button, "modulate", Color(0.0, 0.0, 0.0, 1.0), 0.2)
+	shutdown_tween.parallel().tween_property(stats_button, "modulate", Color(0.0, 0.0, 0.0, 1.0), 0.2)
 	shutdown_tween.parallel().tween_property(exit_button, "modulate", Color(0.0, 0.0, 0.0, 1.0), 0.2)
 	
 	shutdown_tween.tween_property(title_label_1, "modulate", Color.TRANSPARENT, 0.2)
 	shutdown_tween.tween_property(title_label_2, "modulate", Color.TRANSPARENT, 0.2)
 	shutdown_tween.tween_property(play_continue_button, "modulate", Color.TRANSPARENT, 0.2)
-	if GameManager.save_exists:
-		shutdown_tween.tween_property(new_game_button, "modulate", Color.TRANSPARENT, 0.2)
+	shutdown_tween.tween_property(stats_button, "modulate", Color.TRANSPARENT, 0.2)
 	shutdown_tween.tween_property(exit_button, "modulate", Color.TRANSPARENT, 0.2)
 	
 	shutdown_tween.tween_interval(0.2)
@@ -225,7 +223,7 @@ func fade_in_buttons() -> void:
 	fade_in_tween.tween_interval(0.1)
 	
 	fade_in_tween.tween_callback(play_button_blip)
-	fade_in_tween.parallel().tween_property(new_game_button, "modulate", target_colour_1, 0.3)\
+	fade_in_tween.parallel().tween_property(stats_button, "modulate", target_colour_1, 0.3)\
 	.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
 	
 	fade_in_tween.tween_interval(0.1)
@@ -243,7 +241,7 @@ func fade_in_buttons() -> void:
 	fade_in_tween.tween_callback(func(): play_button_fade_noise(0.1))
 	fade_in_tween.tween_interval(0.05)
 	
-	fade_in_tween.parallel().tween_property(new_game_button, "modulate", target_colour_2, 0.1)\
+	fade_in_tween.parallel().tween_property(stats_button, "modulate", target_colour_2, 0.1)\
 	.set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_OUT)
 	
 	fade_in_tween.tween_callback(func(): play_button_fade_noise(0.1))
@@ -253,8 +251,7 @@ func fade_in_buttons() -> void:
 	
 	await fade_in_tween.finished
 	play_continue_button.disabled = false
-	if GameManager.save_exists:
-		new_game_button.disabled = false
+	stats_button.disabled = false
 	exit_button.disabled = false
 
 func play_button_blip(frequency: float = randf_range(150.0, 200.0)) -> void:
@@ -329,14 +326,13 @@ func _on_play_continue_button_button_up() -> void:
 	await shut_down_terminal()
 	continue_pressed.emit()
 
-func _on_new_game_button_button_down() -> void:
+func _on_stats_button_button_down() -> void:
 	play_button_blip(120.0)
-	await get_tree().create_timer(0.1).timeout
-	play_button_blip(120.0)
+	await get_tree().create_timer(0.4).timeout
+	play_button_blip(180.0)
 
-func _on_new_game_button_button_up() -> void:
-	await shut_down_terminal()
-	new_game_pressed.emit()
+func _on_stats_button_button_up() -> void:
+	show_stats()
 
 func _on_exit_button_button_down() -> void:
 	play_button_blip(130.0)
@@ -348,3 +344,13 @@ func _on_exit_button_button_up() -> void:
 	await shut_down_terminal()
 	await get_tree().create_timer(1).timeout
 	get_tree().quit()
+
+func show_stats() -> void:
+	static_overlay.visible = true
+	menu_screen.visible = false
+	stats_screen.visible = true
+	await get_tree().create_timer(0.75).timeout
+	static_overlay.visible = false
+
+func hide_stats() -> void:
+	pass

@@ -7,7 +7,6 @@ extends Control
 func _ready() -> void:
 	game_scene.game_quit.connect(_on_quit_to_menu)
 	menu_scene.continue_pressed.connect(func():on_play(false))
-	menu_scene.new_game_pressed.connect(func():on_play(true))
 
 
 func _on_quit_to_menu() -> void:
@@ -35,9 +34,7 @@ func _on_quit_to_menu() -> void:
 
 func on_play(new_game: bool) -> void:
 	GameManager.cut_audio.emit()
-	if new_game:
-		GameManager.clear_save()
-		game_scene.new_game()
+
 	var target_colour: Color = Color(0.5, 0.5, 0.5, 0.0)
 	var fade_tween: Tween = create_tween()
 	

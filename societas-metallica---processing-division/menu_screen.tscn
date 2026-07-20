@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://bih4tvp0o3cw3" path="res://UI/Sprites/upgrade_cost_button.png" id="8_x55ar"]
 [ext_resource type="Texture2D" uid="uid://c72oqu6wuet5i" path="res://UI/Sprites/down_upgrade_cost_button.png" id="9_wdxbj"]
 [ext_resource type="Texture2D" uid="uid://co1xaj7sfuq4w" path="res://UI/Sprites/hover_upgrade_cost_button.png" id="10_4oumy"]
+[ext_resource type="Shader" uid="uid://csee7ahkye0q" path="res://shaders/noise_screen.gdshader" id="12_wdxbj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_g7b7a"]
 shader = ExtResource("1_ylmtb")
@@ -26,6 +27,13 @@ shader_parameter/scanline_noise_intensity = 1.96400009329
 shader_parameter/scanline_density = 12.10000009975
 shader_parameter/glow_intensity = 4.0
 shader_parameter/glow_threshold = 0.50000002375
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x55ar"]
+shader = ExtResource("12_wdxbj")
+shader_parameter/static_intensity = 1.0
+shader_parameter/fisheye_strength = 0.0510000024225
+shader_parameter/vignette_intensity = 0.754000035815
+shader_parameter/vignette_colour = Color(0, 0.07058824, 0, 1)
 
 [node name="MenuScreen" type="Control" unique_id=2080034709]
 layout_mode = 3
@@ -54,7 +62,7 @@ material = SubResource("ShaderMaterial_g7b7a")
 fit_margin = 0.0
 clear_margin = 0.0
 
-[node name="TextureRect" type="TextureRect" parent="CanvasGroup" unique_id=1385365029]
+[node name="Background" type="TextureRect" parent="CanvasGroup" unique_id=1385365029]
 modulate = Color(1, 0.32941177, 0.32941177, 1)
 texture_filter = 1
 clip_contents = true
@@ -72,12 +80,19 @@ grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
 texture = ExtResource("2_0ft63")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CanvasGroup/TextureRect" unique_id=1256810471]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CanvasGroup/Background" unique_id=1256810471]
 stream = ExtResource("4_68vtp")
 bus = &"ButtonFX"
 
-[node name="Label" type="Label" parent="CanvasGroup" unique_id=1594323250]
+[node name="Menu" type="Control" parent="CanvasGroup" unique_id=757516235]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="CanvasGroup/Menu" unique_id=1594323250]
 modulate = Color(1, 0.5540219, 0.4906062, 1)
+layout_mode = 0
 offset_left = 20.0
 offset_top = 50.0
 offset_right = 320.0
@@ -87,8 +102,9 @@ theme_override_font_sizes/font_size = 54
 text = "societas
 metallica"
 
-[node name="Label2" type="Label" parent="CanvasGroup" unique_id=2087216458]
+[node name="Label2" type="Label" parent="CanvasGroup/Menu" unique_id=2087216458]
 modulate = Color(0.9999928, 0.40057957, 0.33344764, 1)
+layout_mode = 0
 offset_left = 20.0
 offset_top = 160.0
 offset_right = 636.0
@@ -97,7 +113,8 @@ theme_override_fonts/font = ExtResource("4_lfpg5")
 theme_override_font_sizes/font_size = 26
 text = "processing division"
 
-[node name="PlayContinueButton" type="TextureButton" parent="CanvasGroup" unique_id=1824114179]
+[node name="PlayButton" type="TextureButton" parent="CanvasGroup/Menu" unique_id=1824114179]
+layout_mode = 0
 offset_left = 20.0
 offset_top = 200.0
 offset_right = 260.0
@@ -107,7 +124,7 @@ texture_normal = ExtResource("8_x55ar")
 texture_pressed = ExtResource("9_wdxbj")
 texture_hover = ExtResource("10_4oumy")
 
-[node name="Label" type="Label" parent="CanvasGroup/PlayContinueButton" unique_id=1494823951]
+[node name="Label" type="Label" parent="CanvasGroup/Menu/PlayButton" unique_id=1494823951]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -121,7 +138,8 @@ text = "play"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="NewGameButton" type="TextureButton" parent="CanvasGroup" unique_id=1197578151]
+[node name="StatsButton" type="TextureButton" parent="CanvasGroup/Menu" unique_id=1197578151]
+layout_mode = 0
 offset_left = 20.0
 offset_top = 280.0
 offset_right = 260.0
@@ -131,7 +149,7 @@ texture_normal = ExtResource("8_x55ar")
 texture_pressed = ExtResource("9_wdxbj")
 texture_hover = ExtResource("10_4oumy")
 
-[node name="Label" type="Label" parent="CanvasGroup/NewGameButton" unique_id=1211727206]
+[node name="Label" type="Label" parent="CanvasGroup/Menu/StatsButton" unique_id=1211727206]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -141,11 +159,12 @@ grow_vertical = 2
 theme_override_colors/font_color = Color(1, 0.46119684, 0.39121798, 1)
 theme_override_fonts/font = ExtResource("3_qjfvo")
 theme_override_font_sizes/font_size = 40
-text = "new game"
+text = "Stats"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ExitButton" type="TextureButton" parent="CanvasGroup" unique_id=2079356495]
+[node name="ExitButton" type="TextureButton" parent="CanvasGroup/Menu" unique_id=2079356495]
+layout_mode = 0
 offset_left = 20.0
 offset_top = 360.0
 offset_right = 260.0
@@ -155,7 +174,7 @@ texture_normal = ExtResource("8_x55ar")
 texture_pressed = ExtResource("9_wdxbj")
 texture_hover = ExtResource("10_4oumy")
 
-[node name="Label" type="Label" parent="CanvasGroup/ExitButton" unique_id=504839661]
+[node name="Label" type="Label" parent="CanvasGroup/Menu/ExitButton" unique_id=504839661]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -169,14 +188,30 @@ text = "Exit"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Stats" type="Control" parent="CanvasGroup" unique_id=1305908505]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="StaticOverlay" type="ColorRect" parent="." unique_id=1101368684]
+material = SubResource("ShaderMaterial_x55ar")
+layout_mode = 0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 713.0
+offset_bottom = 473.0
+
 [node name="TerminalHum" type="AudioStreamPlayer" parent="." unique_id=57834452]
 bus = &"ButtonFX"
 script = ExtResource("6_qjfvo")
 oscillation_speed = 10.0
 
-[connection signal="button_down" from="CanvasGroup/PlayContinueButton" to="." method="_on_play_continue_button_button_down"]
-[connection signal="button_up" from="CanvasGroup/PlayContinueButton" to="." method="_on_play_continue_button_button_up"]
-[connection signal="button_down" from="CanvasGroup/NewGameButton" to="." method="_on_new_game_button_button_down"]
-[connection signal="button_up" from="CanvasGroup/NewGameButton" to="." method="_on_new_game_button_button_up"]
-[connection signal="button_down" from="CanvasGroup/ExitButton" to="." method="_on_exit_button_button_down"]
-[connection signal="button_up" from="CanvasGroup/ExitButton" to="." method="_on_exit_button_button_up"]
+[connection signal="button_down" from="CanvasGroup/Menu/PlayButton" to="." method="_on_play_continue_button_button_down"]
+[connection signal="button_up" from="CanvasGroup/Menu/PlayButton" to="." method="_on_play_continue_button_button_up"]
+[connection signal="button_down" from="CanvasGroup/Menu/StatsButton" to="." method="_on_stats_button_button_down"]
+[connection signal="button_up" from="CanvasGroup/Menu/StatsButton" to="." method="_on_stats_button_button_up"]
+[connection signal="button_down" from="CanvasGroup/Menu/ExitButton" to="." method="_on_exit_button_button_down"]
+[connection signal="button_up" from="CanvasGroup/Menu/ExitButton" to="." method="_on_exit_button_button_up"]

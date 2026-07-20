@@ -39,12 +39,20 @@
 [ext_resource type="Script" uid="uid://c2y0fkvgei2iv" path="res://Scripts/upgrades_watcher.gd" id="30_gngh3"]
 [ext_resource type="Texture2D" uid="uid://bih4tvp0o3cw3" path="res://UI/Sprites/upgrade_cost_button.png" id="30_ok6jj"]
 [ext_resource type="Texture2D" uid="uid://c72oqu6wuet5i" path="res://UI/Sprites/down_upgrade_cost_button.png" id="31_b1qrp"]
+[ext_resource type="Script" uid="uid://cv08oc0ijtflt" path="res://Scripts/upgrade_screen_swapper.gd" id="31_ev5id"]
 [ext_resource type="Texture2D" uid="uid://co1xaj7sfuq4w" path="res://UI/Sprites/hover_upgrade_cost_button.png" id="31_facbu"]
 [ext_resource type="Texture2D" uid="uid://c0fpmq3timb8c" path="res://UI/Sprites/prestige_button.png" id="33_4lmeg"]
 [ext_resource type="Texture2D" uid="uid://doc0gk7opd6nt" path="res://UI/Sprites/disabled_upgrade_cost_button.png" id="33_d2t1y"]
 [ext_resource type="Texture2D" uid="uid://cvc3s80alm0s1" path="res://UI/Sprites/down_prestige_button.png" id="34_0cp0l"]
+[ext_resource type="Texture2D" uid="uid://bo7ry64b873h7" path="res://UI/Sprites/back_button.png" id="35_2blok"]
 [ext_resource type="Texture2D" uid="uid://cykr6firygftt" path="res://UI/Sprites/hover_prestige_button.png" id="35_d2t1y"]
 [ext_resource type="Texture2D" uid="uid://kgfsi618g8sd" path="res://UI/Sprites/disabled_prestige_button.png" id="36_0cp0l"]
+[ext_resource type="Texture2D" uid="uid://diic6t3b2jcml" path="res://UI/Sprites/down_back_button.png" id="36_5hj7t"]
+[ext_resource type="Texture2D" uid="uid://d1qfu0wnmdvg3" path="res://UI/Sprites/hover_back_button.png" id="37_ufano"]
+[ext_resource type="Texture2D" uid="uid://cdstghh1gvhd1" path="res://UI/Sprites/prestige_store_button_shroud.png" id="41_y8rfx"]
+[ext_resource type="Texture2D" uid="uid://dj2h18jahpksy" path="res://UI/Sprites/prestige_store_button.png" id="42_4lbta"]
+[ext_resource type="Texture2D" uid="uid://cfjdflixsdrxu" path="res://UI/Sprites/down_prestige_store_button.png" id="43_ev5id"]
+[ext_resource type="Texture2D" uid="uid://clil3w3yeeltr" path="res://UI/Sprites/hover_prestige_store_button.png" id="44_rbq5v"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_blvug"]
 shader = ExtResource("2_ycdy4")
@@ -141,6 +149,8 @@ shader_parameter/scanline_density = 58.9610023256475
 shader_parameter/glow_intensity = 4.0
 shader_parameter/glow_threshold = 0.450000021375
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yo5px"]
+
 [node name="GameScreen" type="Control" unique_id=639852667 node_paths=PackedStringArray("terminals", "terminal_hum_sfx", "praenomia_label", "nomia_label", "cognomia_label", "age_label", "debt_label", "numus_label", "headcount_label", "imperium_merit_label", "process_button", "submit_button", "process_button_audio", "progress_bar", "upgrades_button", "upgrade_button_audio", "processing_screen", "processing_text", "upgrade_screen", "upgrade_screen_sfx", "efficiency_button", "efficiency_label", "efficiency_count_label", "return_button", "return_label", "return_count_label", "debtupgrade_button", "debtupgrade_label", "debt_count_label", "prestige_button", "prestige_label")]
 layout_mode = 3
 anchors_preset = 15
@@ -171,17 +181,17 @@ processing_screen = NodePath("TerminalScreen/Screen")
 processing_text = NodePath("TerminalScreen/Screen/ProcessingProgressInfo/CanvasGroup/TextureRect/TextEdit")
 upgrade_screen = NodePath("TerminalScreen/UpgradeScreen")
 upgrade_screen_sfx = NodePath("UpgradePanelSlideOut_SFX")
-efficiency_button = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency/Processing_Efficiency_Button")
-efficiency_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency/Processing_Efficiency_Button/UpgradeCost")
-efficiency_count_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency/CurrentCount")
-return_button = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn/Processing_Return_Button")
-return_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn/Processing_Return_Button/UpgradeCost")
-return_count_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn/CurrentCount")
-debtupgrade_button = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt/Average_Debt_Button")
-debtupgrade_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt/Average_Debt_Button/UpgradeCost")
-debt_count_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt/CurrentCount")
-prestige_button = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/PrestigeButton")
-prestige_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/Screen/PrestigeButton/MeritsReturned")
+efficiency_button = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingEfficiency/Processing_Efficiency_Button")
+efficiency_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingEfficiency/Processing_Efficiency_Button/UpgradeCost")
+efficiency_count_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingEfficiency/CurrentCount")
+return_button = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingReturn/Processing_Return_Button")
+return_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingReturn/Processing_Return_Button/UpgradeCost")
+return_count_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingReturn/CurrentCount")
+debtupgrade_button = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/AverageDebt/Average_Debt_Button")
+debtupgrade_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/AverageDebt/Average_Debt_Button/UpgradeCost")
+debt_count_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/AverageDebt/CurrentCount")
+prestige_button = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/PrestigeButton")
+prestige_label = NodePath("TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/PrestigeButton/MeritsReturned")
 
 [node name="TerminalScreen" type="TextureRect" parent="." unique_id=332854659]
 layout_mode = 1
@@ -638,7 +648,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="UpgradeScreen" type="TextureRect" parent="TerminalScreen" unique_id=106190974]
-visible = false
 texture_filter = 1
 layout_mode = 0
 offset_top = 70.0
@@ -647,12 +656,15 @@ offset_bottom = 480.0
 texture = ExtResource("22_1u8w0")
 expand_mode = 1
 stretch_mode = 4
+script = ExtResource("31_ev5id")
+prestige_button_textures = Array[Texture2D]([ExtResource("42_4lbta"), ExtResource("43_ev5id"), ExtResource("44_rbq5v")])
+back_button_textures = Array[Texture2D]([ExtResource("35_2blok"), ExtResource("36_5hj7t"), ExtResource("37_ufano")])
 
 [node name="CanvasGroup" type="CanvasGroup" parent="TerminalScreen/UpgradeScreen" unique_id=290056251]
 material = SubResource("ShaderMaterial_pdrlu")
 fit_margin = 0.0
 
-[node name="Screen" type="TextureRect" parent="TerminalScreen/UpgradeScreen/CanvasGroup" unique_id=1434656366]
+[node name="UpgradesScreen" type="TextureRect" parent="TerminalScreen/UpgradeScreen/CanvasGroup" unique_id=1434656366]
 offset_left = 7.0
 offset_top = 7.0
 offset_right = 713.0
@@ -662,12 +674,12 @@ expand_mode = 1
 stretch_mode = 4
 script = ExtResource("30_gngh3")
 
-[node name="ProcessingEfficiency" type="Control" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" unique_id=1166532976]
+[node name="ProcessingEfficiency" type="Control" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen" unique_id=1166532976]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Upgrade" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency" unique_id=1786490946]
+[node name="Upgrade" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingEfficiency" unique_id=1786490946]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 12.0
@@ -681,7 +693,7 @@ text = "Processing
  efficiency"
 vertical_alignment = 1
 
-[node name="CurrentCount" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency" unique_id=826064833]
+[node name="CurrentCount" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingEfficiency" unique_id=826064833]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -698,7 +710,7 @@ text = " x0 "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Processing_Efficiency_Button" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency" unique_id=118347502]
+[node name="Processing_Efficiency_Button" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingEfficiency" unique_id=118347502]
 modulate = Color(0.99999994, 0.5340296, 0.27853656, 1)
 texture_filter = 1
 layout_mode = 1
@@ -718,7 +730,7 @@ texture_hover = ExtResource("31_facbu")
 texture_disabled = ExtResource("33_d2t1y")
 stretch_mode = 0
 
-[node name="UpgradeCost" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency/Processing_Efficiency_Button" unique_id=1032006631]
+[node name="UpgradeCost" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingEfficiency/Processing_Efficiency_Button" unique_id=1032006631]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -731,13 +743,13 @@ text = "Nm 20.00 "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ProcessingReturn" type="Control" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" unique_id=2056909027]
+[node name="ProcessingReturn" type="Control" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen" unique_id=2056909027]
 anchors_preset = 0
 offset_top = 90.0
 offset_right = 40.0
 offset_bottom = 129.99997
 
-[node name="Upgrade" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn" unique_id=1614922994]
+[node name="Upgrade" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingReturn" unique_id=1614922994]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 12.0
@@ -751,7 +763,7 @@ text = "Processing
  Return    "
 vertical_alignment = 1
 
-[node name="CurrentCount" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn" unique_id=463269799]
+[node name="CurrentCount" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingReturn" unique_id=463269799]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -768,7 +780,7 @@ text = " x0 "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Processing_Return_Button" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn" unique_id=866918574]
+[node name="Processing_Return_Button" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingReturn" unique_id=866918574]
 modulate = Color(0.99999994, 0.5340296, 0.27853656, 1)
 texture_filter = 1
 layout_mode = 1
@@ -789,7 +801,7 @@ texture_hover = ExtResource("31_facbu")
 texture_disabled = ExtResource("33_d2t1y")
 stretch_mode = 0
 
-[node name="UpgradeCost" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn/Processing_Return_Button" unique_id=2141019375]
+[node name="UpgradeCost" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingReturn/Processing_Return_Button" unique_id=2141019375]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -802,13 +814,13 @@ text = "Nm 50.00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AverageDebt" type="Control" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" unique_id=1110017468]
+[node name="AverageDebt" type="Control" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen" unique_id=1110017468]
 anchors_preset = 0
 offset_top = 180.0
 offset_right = 40.0
 offset_bottom = 219.99997
 
-[node name="Upgrade" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt" unique_id=1155425919]
+[node name="Upgrade" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/AverageDebt" unique_id=1155425919]
 layout_mode = 0
 offset_left = 16.0
 offset_top = 12.0
@@ -822,7 +834,7 @@ text = " average
    debt    "
 vertical_alignment = 1
 
-[node name="CurrentCount" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt" unique_id=786440654]
+[node name="CurrentCount" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/AverageDebt" unique_id=786440654]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -839,7 +851,7 @@ text = " x0 "
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Average_Debt_Button" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt" unique_id=639525592]
+[node name="Average_Debt_Button" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/AverageDebt" unique_id=639525592]
 modulate = Color(0.99999994, 0.5340296, 0.27853656, 1)
 texture_filter = 1
 layout_mode = 1
@@ -860,7 +872,7 @@ texture_hover = ExtResource("31_facbu")
 texture_disabled = ExtResource("33_d2t1y")
 stretch_mode = 0
 
-[node name="UpgradeCost" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt/Average_Debt_Button" unique_id=150896058]
+[node name="UpgradeCost" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/AverageDebt/Average_Debt_Button" unique_id=150896058]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -873,7 +885,7 @@ text = "Nm 100.00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PrestigeButton" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" unique_id=793177274]
+[node name="PrestigeButton" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen" unique_id=793177274]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -893,7 +905,7 @@ texture_pressed = ExtResource("34_0cp0l")
 texture_hover = ExtResource("35_d2t1y")
 texture_disabled = ExtResource("36_0cp0l")
 
-[node name="Label" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/PrestigeButton" unique_id=1615000744]
+[node name="Label" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/PrestigeButton" unique_id=1615000744]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -906,7 +918,7 @@ theme_override_font_sizes/font_size = 42
 text = "recycle workers"
 vertical_alignment = 1
 
-[node name="MeritsReturned" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/PrestigeButton" unique_id=1424149936]
+[node name="MeritsReturned" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/PrestigeButton" unique_id=1424149936]
 layout_mode = 1
 anchors_preset = 11
 anchor_left = 1.0
@@ -923,6 +935,232 @@ theme_override_fonts/font = ExtResource("6_kek77")
 theme_override_font_sizes/font_size = 42
 text = "M̶ 0"
 vertical_alignment = 1
+
+[node name="PrestigeStoreScreen" type="TextureRect" parent="TerminalScreen/UpgradeScreen/CanvasGroup" unique_id=1797715270]
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 713.0
+offset_bottom = 403.0
+texture = ExtResource("23_0odxb")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen" unique_id=1496123758]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer" unique_id=173421915]
+layout_mode = 2
+theme_override_constants/separation = 132
+
+[node name="AutomationSpeed" type="Control" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer" unique_id=1088024911]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/AutomationSpeed" unique_id=945337311]
+layout_mode = 0
+offset_right = 702.0
+offset_bottom = 70.0
+theme_override_constants/separation = 18
+
+[node name="VSeparator" type="VSeparator" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/AutomationSpeed/HBoxContainer" unique_id=970081661]
+layout_mode = 2
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxEmpty_yo5px")
+
+[node name="Upgrade" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/AutomationSpeed/HBoxContainer" unique_id=925974364]
+layout_mode = 2
+offset_transform_position = Vector2(16, 0)
+theme_override_colors/font_color = Color(1, 0.4666667, 0, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 36
+text = "Automation 
+  Speed    "
+vertical_alignment = 1
+
+[node name="CurrentCount" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/AutomationSpeed/HBoxContainer" unique_id=2015496130]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.46666667, 0, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 55
+text = " x0 "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Processing_Efficiency_Button" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/AutomationSpeed/HBoxContainer" unique_id=1533602226]
+modulate = Color(0.99999994, 0.5340296, 0.27853656, 1)
+texture_filter = 1
+layout_mode = 2
+offset_transform_position = Vector2(-61.535, 0)
+focus_mode = 0
+texture_normal = ExtResource("30_ok6jj")
+texture_pressed = ExtResource("31_b1qrp")
+texture_hover = ExtResource("31_facbu")
+texture_disabled = ExtResource("33_d2t1y")
+stretch_mode = 0
+
+[node name="UpgradeCost" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/AutomationSpeed/HBoxContainer/Processing_Efficiency_Button" unique_id=361903056]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 26
+text = "M̶ 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PassiveNumus" type="Control" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer" unique_id=84053140]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/PassiveNumus" unique_id=965607533]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 18
+
+[node name="VSeparator" type="VSeparator" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/PassiveNumus/HBoxContainer" unique_id=178081493]
+layout_mode = 2
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxEmpty_yo5px")
+
+[node name="Upgrade" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/PassiveNumus/HBoxContainer" unique_id=884865160]
+layout_mode = 2
+offset_transform_position = Vector2(16, 0)
+theme_override_colors/font_color = Color(1, 0.4666667, 0, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 36
+text = " passive   
+  numus    "
+vertical_alignment = 1
+
+[node name="CurrentCount" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/PassiveNumus/HBoxContainer" unique_id=96756357]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.46666667, 0, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 55
+text = " x0 "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Processing_Return_Button" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/PassiveNumus/HBoxContainer" unique_id=1000832905]
+modulate = Color(0.99999994, 0.5340296, 0.27853656, 1)
+texture_filter = 1
+layout_mode = 2
+offset_transform_position = Vector2(-61.535, 0)
+focus_mode = 0
+disabled = true
+texture_normal = ExtResource("30_ok6jj")
+texture_pressed = ExtResource("31_b1qrp")
+texture_hover = ExtResource("31_facbu")
+texture_disabled = ExtResource("33_d2t1y")
+stretch_mode = 0
+
+[node name="UpgradeCost" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/PassiveNumus/HBoxContainer/Processing_Return_Button" unique_id=1008132079]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 26
+text = "M̶ 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DataBusMultiplier" type="Control" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer" unique_id=1557219791]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/DataBusMultiplier" unique_id=423617689]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 18
+
+[node name="VSeparator" type="VSeparator" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/DataBusMultiplier/HBoxContainer" unique_id=2082992976]
+layout_mode = 2
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxEmpty_yo5px")
+
+[node name="Upgrade" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/DataBusMultiplier/HBoxContainer" unique_id=1232140375]
+layout_mode = 2
+offset_transform_position = Vector2(16, 0)
+theme_override_colors/font_color = Color(1, 0.4666667, 0, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 36
+text = "databus    
+ multiplier"
+vertical_alignment = 1
+
+[node name="CurrentCount" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/DataBusMultiplier/HBoxContainer" unique_id=1342877076]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.46666667, 0, 1)
+theme_override_fonts/font = ExtResource("3_lquwl")
+theme_override_font_sizes/font_size = 55
+text = " x0 "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Average_Debt_Button" type="TextureButton" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/DataBusMultiplier/HBoxContainer" unique_id=2001728069]
+modulate = Color(0.99999994, 0.5340296, 0.27853656, 1)
+texture_filter = 1
+layout_mode = 2
+offset_transform_position = Vector2(-61.535, 0)
+focus_mode = 0
+disabled = true
+texture_normal = ExtResource("30_ok6jj")
+texture_pressed = ExtResource("31_b1qrp")
+texture_hover = ExtResource("31_facbu")
+texture_disabled = ExtResource("33_d2t1y")
+stretch_mode = 0
+
+[node name="UpgradeCost" type="Label" parent="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/DataBusMultiplier/HBoxContainer/Average_Debt_Button" unique_id=470386500]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("6_kek77")
+theme_override_font_sizes/font_size = 26
+text = "M̶ 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="TerminalScreen/UpgradeScreen" unique_id=1520952232]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -31.0
+offset_top = -51.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("41_y8rfx")
+
+[node name="PrestigeStore" type="TextureButton" parent="TerminalScreen/UpgradeScreen/TextureRect" unique_id=1008753176]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 27.0
+offset_bottom = 47.0
+texture_normal = ExtResource("42_4lbta")
+texture_pressed = ExtResource("43_ev5id")
+texture_hover = ExtResource("44_rbq5v")
 
 [node name="ProcessButtonAudio" type="AudioStreamPlayer" parent="." unique_id=2092993735]
 stream = ExtResource("20_getpj")
@@ -951,10 +1189,17 @@ click_volume = 1.5
 [connection signal="button_down" from="TerminalScreen/TopBar2/BarBg/ExitButton" to="." method="_on_exit_button_button_down"]
 [connection signal="button_up" from="TerminalScreen/TopBar2/BarBg/ExitButton" to="." method="_on_exit_button_button_up"]
 [connection signal="button_up" from="TerminalScreen/TopBar2/BarBg/ToggleAudioButton" to="TerminalScreen/TopBar2/BarBg/ToggleAudioButton" method="_on_button_up"]
-[connection signal="button_down" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency/Processing_Efficiency_Button" to="TerminalBlipSFX" method="_on_processing_efficiency_button_button_down"]
-[connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingEfficiency/Processing_Efficiency_Button" to="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" method="_on_processing_efficiency_button_button_up"]
-[connection signal="button_down" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn/Processing_Return_Button" to="TerminalBlipSFX" method="_on_processing_return_button_button_down"]
-[connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/ProcessingReturn/Processing_Return_Button" to="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" method="_on_processing_return_button_button_up"]
-[connection signal="button_down" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt/Average_Debt_Button" to="TerminalBlipSFX" method="_on_average_debt_button_button_down"]
-[connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/AverageDebt/Average_Debt_Button" to="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" method="_on_average_debt_button_button_up"]
-[connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/Screen/PrestigeButton" to="TerminalScreen/UpgradeScreen/CanvasGroup/Screen" method="_on_prestige_button_button_up"]
+[connection signal="button_down" from="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingEfficiency/Processing_Efficiency_Button" to="TerminalBlipSFX" method="_on_processing_efficiency_button_button_down"]
+[connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingEfficiency/Processing_Efficiency_Button" to="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen" method="_on_processing_efficiency_button_button_up"]
+[connection signal="button_down" from="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingReturn/Processing_Return_Button" to="TerminalBlipSFX" method="_on_processing_return_button_button_down"]
+[connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/ProcessingReturn/Processing_Return_Button" to="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen" method="_on_processing_return_button_button_up"]
+[connection signal="button_down" from="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/AverageDebt/Average_Debt_Button" to="TerminalBlipSFX" method="_on_average_debt_button_button_down"]
+[connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/AverageDebt/Average_Debt_Button" to="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen" method="_on_average_debt_button_button_up"]
+[connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen/PrestigeButton" to="TerminalScreen/UpgradeScreen/CanvasGroup/UpgradesScreen" method="_on_prestige_button_button_up"]
+[connection signal="button_down" from="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/AutomationSpeed/HBoxContainer/Processing_Efficiency_Button" to="TerminalBlipSFX" method="_on_processing_efficiency_button_button_down"]
+[connection signal="button_down" from="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/PassiveNumus/HBoxContainer/Processing_Return_Button" to="TerminalBlipSFX" method="_on_processing_return_button_button_down"]
+[connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/PassiveNumus/HBoxContainer/Processing_Return_Button" to="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen" method="_on_processing_return_button_button_up"]
+[connection signal="button_down" from="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/DataBusMultiplier/HBoxContainer/Average_Debt_Button" to="TerminalBlipSFX" method="_on_average_debt_button_button_down"]
+[connection signal="button_up" from="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen/MarginContainer/VBoxContainer/DataBusMultiplier/HBoxContainer/Average_Debt_Button" to="TerminalScreen/UpgradeScreen/CanvasGroup/PrestigeStoreScreen" method="_on_average_debt_button_button_up"]
+[connection signal="button_down" from="TerminalScreen/UpgradeScreen/TextureRect/PrestigeStore" to="TerminalScreen/UpgradeScreen" method="_on_prestige_store_button_down"]
+[connection signal="button_up" from="TerminalScreen/UpgradeScreen/TextureRect/PrestigeStore" to="TerminalScreen/UpgradeScreen" method="_on_prestige_store_button_up"]

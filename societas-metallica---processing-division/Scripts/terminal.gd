@@ -71,15 +71,14 @@ func _ready() -> void:
 		)
 
 func on_ready() -> void:
+	upgrade_screen.visible = false
 	upgrades_button.disabled = true
 	processing_screen.visible = true
-	upgrade_screen.visible = false
 	refresh_finacial_data()
 	await get_tree().create_timer(0.5).timeout
 	await boot_sequence()
 	set_default_upgrade_values()
 	await get_tree().create_timer(2).timeout
-	upgrade_screen.visible = false
 	base_pos = position
 	
 	submit_button.disabled = true
@@ -315,7 +314,10 @@ func update_upgrade_buttons() -> void:
 	debt_count_label.text = "x" + String.num(GameManager.debt_upgrade_count, 2)
 	debtupgrade_label.text = "NM " + String.num(GameManager.debt_upgrade_cost, 2)
 	
-	var merits = GameManager.get_pending_merits()
+	var merits = GameManager.get_pending_merits() - GameManager.claimed_merits
 	if merits > 0:
 		prestige_button.disabled = false
 		prestige_label.text = "M̶ " + str(merits)
+	else: 
+		prestige_button.disabled = true
+		prestige_label.text = "M̶ 0"

@@ -25,6 +25,8 @@ var numus_per_second: float = 0.0
 const BASE_MERIT_COST: float = 100.0
 const SCALE_EXPONENT: float = 1.5
 
+var claimed_merits: int = 0
+
 var active_subject: Dictionary = {}
 
 # --- run upgrades ---
@@ -37,11 +39,16 @@ var return_upgrade_count: int = 0
 var debt_upgrade_count: int = 0
 
 # --- merit upgrades ---
+var automation_merit_cost: int = 1
+var passive_merit_cost: int = 2
+var multiplier_merit_cost: int = 1
+
 var automation_speed_level: int = 0
 var passive_numus_level: int = 0
+var multiplier_level: int = 0
 var data_bus_multiplier: float = 1.0 # numus gains multiplier
 
-var save_path: String = "res://save.dat"
+var save_path: String = "user://save/save.dat"
 
 func _ready() -> void:
 	initialise_tick_timer()
@@ -61,6 +68,11 @@ func _on_economic_tick() -> void:
 	if numus_per_second > 0.0:
 		total_numus += (numus_per_second * 0.1)
 		finacial_state_updated.emit()
+	if automation_speed_level > 0:
+		for i in range(automation_speed_level):
+			apply_manual_audit_strike()
+			if active_subject["remaining_assessment"] <= 0.0:
+				request_new_subject()
 
 func apply_manual_audit_strike() -> void:
 	if active_subject.is_empty():
@@ -75,7 +87,7 @@ func apply_manual_audit_strike() -> void:
 
 func finalise_active_subject() -> void:
 	var payout = (active_subject["debt"] * audit_complete_payout_percentage)
-	total_numus += payout
+	total_numus += payout * data_bus_multiplier
 	total_headcount += 1
 	active_subject_completed.emit()
 
@@ -94,6 +106,23 @@ func request_new_subject() -> void:
 	
 	if get_pending_merits() > 0:
 		can_prestige.emit()
+
+func upgrade_automation() -> void:
+	automation_speed_level += 1
+	automation_merit_cost = pow(float(passive_numus_level + 1), 2)
+	upgrade_purchased.emit()
+
+func upgrade_passive() -> void:
+	passive_numus_level += 1
+	passive_merit_cost = pow(float(passive_numus_level + 1), 2)
+	numus_per_second += pow(float(passive_numus_level), 2)
+	upgrade_purchased.emit()
+
+func upgrade_multiplier() -> void:
+	multiplier_level += 1
+	data_bus_multiplier = multiplier_level + (multiplier_level * 0.5)
+	multiplier_merit_cost = multiplier_merit_cost + (multiplier_level * 0.75)
+	upgrade_purchased.emit()
 
 func upgrade_efficiency() -> void:
 	total_numus -= efficiency_upgrade_cost
@@ -117,19 +146,30 @@ func upgrade_average_debt() -> void:
 	upgrade_purchased.emit()
 
 func upgrades_from_load() -> void:
-	for i in range(1,efficiency_upgrade_count):
+	for i in range(0,efficiency_upgrade_count):
 		audit_efficiency += (audit_efficiency * 0.1)
 	
-	for i in range(1,return_upgrade_count):
+	for i in range(0,return_upgrade_count):
 		audit_complete_payout_percentage *= 2.0
 	
-	for i in range(1, debt_upgrade_count):
+	for i in range(0, debt_upgrade_count):
 		SubjectGenerator.average_debt_multiplier *= 1.5
+	
+	for i in range(0, automation_speed_level):
+		automation_merit_cost = pow(float(passive_numus_level + 1), 2)
+	
+	for i in range(0, passive_numus_level):
+		passive_merit_cost = pow(float(passive_numus_level + 1), 2)
+		numus_per_second += pow(float(passive_numus_level), 2)
+	
+	for i in range(0, multiplier_level):
+		data_bus_multiplier = multiplier_level + (multiplier_level * 0.5)
+		multiplier_merit_cost = multiplier_merit_cost + (multiplier_level * 0.75)
 
 func get_total_merits_earned_for_lifetime_count(headcount: int) -> int:
 	if headcount < BASE_MERIT_COST:
 		return 0
-	return int(pow(float(headcount)/ BASE_MERIT_COST, 1.0 / SCALE_EXPONENT))
+	return int(pow(float(headcount)/ BASE_MERIT_COST, 1.0 / SCALE_EXPONENT)) - claimed_merits
 
 func get_pending_merits() -> int:
 	var potential_lifetime: int = lifetime_headcount + total_headcount
@@ -142,6 +182,7 @@ func perform_prestige() -> void:
 	if pending <= 0:
 		return
 	total_imperium_merits += pending
+	claimed_merits += pending
 	lifetime_headcount += total_headcount
 	
 	total_numus = 0.0 
@@ -163,9 +204,9 @@ func perform_prestige() -> void:
 	prestige_performed.emit()
 
 func clear_save() -> void:
-	if FileAccess.file_exists(save_path):
+	var dir_path = save_path.get_base_dir()
+	if DirAccess.dir_exists_absolute(dir_path):
 		DirAccess.remove_absolute(save_path)
-		
 		total_numus = 0.0
 		total_headcount = 0
 		lifetime_headcount = 0
@@ -182,15 +223,25 @@ func clear_save() -> void:
 		return_upgrade_count = 0
 		debt_upgrade_count = 0
 		
+		claimed_merits = 0
 		# --- merit upgrades ---
+		automation_merit_cost = 1
+		passive_merit_cost = 2
+		multiplier_merit_cost = 1
 		automation_speed_level = 0
 		passive_numus_level = 0
+		multiplier_level = 0
 		data_bus_multiplier = 1.0 # numus gains multiplier
 		
 		active_subject.clear()
 		save_game()
 
 func save_game() -> void:
+	var dir_path = save_path.get_base_dir()
+	if not DirAccess.dir_exists_absolute(dir_path):
+		DirAccess.make_dir_recursive_absolute(dir_path)
+	
+	print(dir_path)
 	var file_access: FileAccess = FileAccess.open(save_path,FileAccess.WRITE)
 	file_access.store_var(total_numus)
 	file_access.store_var(total_headcount)
@@ -202,7 +253,14 @@ func save_game() -> void:
 	file_access.store_var(return_upgrade_cost)
 	file_access.store_var(debt_upgrade_count)
 	file_access.store_var(debt_upgrade_cost)
+	
+	file_access.store_var(claimed_merits)
+	file_access.store_var(automation_speed_level)
+	file_access.store_var(passive_numus_level)
+	file_access.store_var(multiplier_level)
 	file_access.close()
+	
+	save_exists = true
 
 func load_game() -> void:
 	if not FileAccess.file_exists(save_path):
@@ -224,6 +282,12 @@ func load_game() -> void:
 		return_upgrade_cost = file_access.get_var()
 		debt_upgrade_count = file_access.get_var()
 		debt_upgrade_cost = file_access.get_var()
+		
+		claimed_merits = file_access.get_var()
+		automation_speed_level = file_access.get_var()
+		passive_numus_level = file_access.get_var()
+		multiplier_level = file_access.get_var()
+		
 		file_access.close()
 		
 		upgrades_from_load()
